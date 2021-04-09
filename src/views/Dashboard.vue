@@ -36,11 +36,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import DashboardHeader from "@/components/DashboardHeader.vue";
 import DashboardSidebar from "@/components/DashboardSidebar.vue";
 import DashboardButton from "@/components/DashboardButton.vue";
+import { State } from "@/store/modules/items";
 
 export default defineComponent({
   name: "Dashboard",
@@ -49,12 +50,11 @@ export default defineComponent({
     DashboardSidebar,
     DashboardHeader,
   },
-  setup() {
-    const store = useStore();
-    const state = ref(store.state); //ストアを使う
-    return {
-      state, //ストアをビューに公開
-    };
+  props: {},
+  setup: function (props) {
+    console.log(props);
+
+    return {};
   },
 });
 </script>
