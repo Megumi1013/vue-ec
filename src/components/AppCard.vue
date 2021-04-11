@@ -10,7 +10,7 @@
       <div>
         <div class="text-xl font-medium text-black">{{ itemName }}</div>
         <p class="text-gray-500">{{ itemDetail }}</p>
-        <p class="text-sm text-gray-500">{{ itemPrice }}</p>
+        <p class="text-sm text-gray-500">{{ itemPrice }}円</p>
       </div>
     </div>
   </router-link>
@@ -23,7 +23,7 @@ export default defineComponent({
   props: {
     src: {
       type: String,
-      required: true,
+      required: false,
     },
     itemName: {
       type: String,

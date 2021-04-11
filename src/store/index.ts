@@ -1,13 +1,10 @@
 import { createStore } from "vuex";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import items from "./modules/items";
+import produce from "./modules/produce";
 
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
   modules: {
-    items,
+    produce,
   },
 });

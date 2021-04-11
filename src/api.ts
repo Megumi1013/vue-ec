@@ -39,16 +39,17 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const getItems = function() {
 
-    return axios.get(`${process.env.VUE_APP_API_URL}/items`, {
+    return axios.get(`${process.env.VUE_APP_API_URL}items`, {
         withCredentials: true,
         params: {
             page: 1,
             perPage: 10,
             orderBy: 'created_at',
             orderDirection: 'desc'
-        }
+        },
     })
 
+    console.log('axios')
 }
 
 /* eslint-enable */

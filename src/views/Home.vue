@@ -7,17 +7,15 @@
     </div>
     <div class="w-9/12 mx-auto">
       <div
-        v-for="(item, itemIndex) in items"
+        v-for="(item, itemIndex) in produceItems"
         :key="itemIndex"
         class="md:flex md:my-16"
       >
         <app-card
-          src=""
-          itemName="にんじん"
-          itemDetail="美味しいにんじんにんじん"
-          itemPrice="300円"
+          :itemName="item.name"
+          :itemDetail="item.description"
+          :itemPrice="item.price"
         />
-        {{ item }}
       </div>
     </div>
     <app-footer></app-footer>
@@ -25,12 +23,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { ref, computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import AppHeader from "@/components/AppHeader.vue";
 import AppFooter from "@/components/AppFooter.vue";
 import AppCard from "@/components/AppCard.vue";
-import { State } from "@/store/modules/items";
+import { State } from "@/store/modules/produce";
 // import HelloWorld from '@/components/HelloWorld.vue';
 // @ is an alias to /src
 
@@ -38,22 +36,26 @@ type ComponentState = State;
 
 export default defineComponent({
   name: "Home",
+
   components: {
     AppCard,
     AppHeader,
     AppFooter,
   },
+
   setup() {
     const store = useStore();
+
+    // Get Produce Items
+
+    const getAndSetProduceItems = async () => {
+      await store.dispatch("produce/getAndSetItems");
+    };
+
+    onMounted(getAndSetProduceItems);
+
     return {
-      // state を呼び出す場合
-      items: computed(() => store.state.items),
-      // getters を呼び出す場合
-      // double: computed(() => store.getters.double),
-      // mutation を呼び出す場合
-      // increment: () => store.commit("increment"),
-      // action を呼び出す場合
-      // asyncIncrement: () => store.dispatch("asyncIncrement"),
+      produceItems: computed(() => store.state.produce.items),
     };
   },
 });
