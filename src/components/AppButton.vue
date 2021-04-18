@@ -1,5 +1,5 @@
 <template>
-  <button type="submit" class="btn" :class="color" @click="handleClick">
+  <button type="submit" class="btn mt-3" :class="color" @click="handleClick">
     <slot></slot>
   </button>
 </template>
@@ -7,12 +7,12 @@
 <script language="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "DashboardButton",
+  name: "AppButton",
   props: {
     color: {
       type: String,
       required: false,
-      default: "bg-gray-400",
+      default: "bg-green-700",
     },
   },
   setup: function (props, context) {
@@ -25,4 +25,8 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped></style>
+<style scoped>
+.btn {
+  @apply font-bold py-2 px-4 rounded text-white;
+}
+</style>

@@ -1,83 +1,68 @@
-<template>
-  <div class="dashboard">
-    <div class="md:flex">
-      <dashboard-sidebar></dashboard-sidebar>
-      <section class="w-full">
-        <div class="container">
-          <dashboard-header></dashboard-header>
-          <section class="md:w-full sm:w-11/12 p-10 text-left">
-            <div class="flex">
-              <h1>商品詳細</h1>
-            </div>
-            <div class="flex justify-center">
-              <div
-                class="my-10 item-img bg-gradient-to-br bg-yellow-200 w-3/12 h-3/12"
-              ></div>
-            </div>
-            <form>
-              <label class="block my-12 sm:flex items-center">
-                <div class="text-gray-700 w-1/6">商品名</div>
-                <input
-                  type="text"
-                  class="p-3 mt-3 block w-full rounded-md border-gray-300 shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  placeholder="パイナップル"
-                />
-              </label>
+<!--<template>-->
+<!--  <div class="home">-->
+<!--    <app-header></app-header>-->
+<!--    <div class="bg-fruit h-80"></div>-->
+<!--    <div>-->
+<!--      <h1 class="text-3xl text-gray-500 my-14">PRODUCE</h1>-->
+<!--    </div>-->
 
-              <label class="block my-12 sm:flex items-center">
-                <div class="text-gray-700 w-1/6">商品説明</div>
-                <textarea
-                  class="p-3 mt-3 block w-full rounded-md border-gray-300 shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  rows="3"
-                  placeholder="宮崎県の佐藤さんのパイナップル"
-                ></textarea>
-              </label>
+<!--    <div v-if="produceItems.length > 0" class="w-9/12 mx-auto">-->
+<!--      <div-->
+<!--        v-for="(item, itemIndex) in produceItems"-->
+<!--        :key="itemIndex"-->
+<!--        class="md:flex md:my-16"-->
+<!--      >-->
+<!--        <app-card-->
+<!--          :itemName="item.name"-->
+<!--          :itemDetail="item.description"-->
+<!--          :itemPrice="item.price"-->
+<!--        />-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div v-else-if="produceItems.length === 0">商品を準備中です。</div>-->
+<!--    <app-footer></app-footer>-->
+<!--  </div>-->
+<!--</template>-->
 
-              <label class="block my-12 sm:flex items-center">
-                <div class="text-gray-700 w-1/6">価格</div>
-                <input
-                  type="text"
-                  class="p-3 mt-3 block w-full rounded-md border-gray-300 shadow-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  placeholder="400"
-                />
-              </label>
-            </form>
-            <div class="flex items-center">
-              <dashboard-button>登録</dashboard-button>
-            </div>
-          </section>
-        </div>
-      </section>
-    </div>
-  </div>
-</template>
+<!--<script lang="ts">-->
+<!--import { reactive, computed, defineComponent, onMounted } from "vue";-->
+<!--import { useStore } from "vuex";-->
+<!--import AppHeader from "@/components/AppHeader.vue";-->
+<!--import AppFooter from "@/components/AppFooter.vue";-->
+<!--import AppCard from "@/components/AppCard.vue";-->
+<!--import { Produce } from "@/store/modules/produce";-->
+<!--// import HelloWorld from '@/components/HelloWorld.vue';-->
+<!--// @ is an alias to /src-->
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { useStore } from "vuex";
-import DashboardHeader from "@/components/DashboardHeader.vue";
-import DashboardSidebar from "@/components/DashboardSidebar.vue";
-import DashboardButton from "@/components/DashboardButton.vue";
-import { State } from "@/store/modules/produce";
+<!--type ComponentState = {-->
+<!--  produceItems: Produce[];-->
+<!--};-->
 
-export default defineComponent({
-  name: "Dashboard",
-  components: {
-    DashboardButton,
-    DashboardSidebar,
-    DashboardHeader,
-  },
-  props: {},
-  setup: function (props) {
-    console.log(props);
+<!--export default defineComponent({-->
+<!--  name: "Home",-->
 
-    return {};
-  },
-});
-</script>
-<style scoped>
-.item-img {
-  width: 250px;
-  height: 250px;
-}
-</style>
+<!--  components: {-->
+<!--    AppCard,-->
+<!--    AppHeader,-->
+<!--    AppFooter,-->
+<!--  },-->
+
+<!--  setup() {-->
+<!--    const store = useStore();-->
+
+<!--    // Get Produce Items-->
+
+<!--    const getAndSetProduceItems = async () => {-->
+<!--      await store.dispatch("produce/getAndSetItems");-->
+<!--    };-->
+
+<!--    onMounted(getAndSetProduceItems);-->
+
+<!--    return {-->
+<!--      produceItems: computed(() => store.state.produce.items),-->
+<!--    };-->
+<!--  },-->
+<!--});-->
+<!--</script>-->
+
+<!--<style scoped></style>-->

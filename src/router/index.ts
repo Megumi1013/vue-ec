@@ -4,10 +4,19 @@ import CONTACT from "../views/Contact.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: "/top",
     name: "Home",
     component: Home,
   },
+  // {
+  //   path: "/item_details",
+  //   name: "ItemDetails",
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ "../views/ItemDetails.vue"),
+  // },
   {
     path: "/about",
     name: "About",
@@ -30,15 +39,11 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/dashboard/item_details",
-    name: "ItemDetails",
+    name: "DashboardItemDetails",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/ItemDetails.vue"),
-  },
-  {
-    path: "/dashboard/reviews",
-    name: "Reviews",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Reviews.vue"),
+      import(
+        /* webpackChunkName: "about" */ "../views/DashboardItemDetails.vue"
+      ),
   },
 ];
 

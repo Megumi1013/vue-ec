@@ -1,68 +1,76 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard dashboard-app">
     <div class="md:flex">
       <dashboard-sidebar></dashboard-sidebar>
-      <section class="w-full">
-        <div class="container">
-          <dashboard-header></dashboard-header>
-          <section class="md:w-full sm:w-11/12 p-10 text-left">
-            <div class="flex items-center">
-              <h1>商品管理</h1>
-              <dashboard-button class="ml-auto bg-blue-300"
-                >新規登録</dashboard-button
-              >
-            </div>
-            <div>
-              <table class="w-full my-3">
-                <tr class="border-gray-200">
-                  <th class="p-2">商品名</th>
-                  <th class="p-2">商品説明</th>
-                  <th class="p-2">価格</th>
-                  <th class="p-2"></th>
-                </tr>
 
-                <tr v-for="(item, itemIndex) in produceItems" :key="itemIndex">
-                  <td class="p-2">
-                    {{ item.name }}
-                  </td>
-                  <td class="p-2">{{ item.description }}</td>
-                  <td class="p-2">{{ item.price }}円</td>
-                  <td class="p-2">
-                    <dashboard-button class="mr-3">削除</dashboard-button>
-                    <dashboard-button
-                      @handleClick="openModal"
-                      class="bg-blue-300"
-                      ref="openModalBtn"
-                      >編集</dashboard-button
-                    >
-                  </td>
-                </tr>
+      <div class="container">
+        <dashboard-header></dashboard-header>
+        <section class="md:w-full sm:w-11/12 px-10 py-7 text-left">
+          <div class="flex">
+            <h1 class="text-xl">商品管理</h1>
+            <dashboard-button class="ml-auto btn-primary"
+              >新規登録</dashboard-button
+            >
+          </div>
+          <div>
+            <div v-if="produceItems.length > 0">
+              <table class="w-full my-3">
+                <thead>
+                  <tr class="border-gray-200">
+                    <th class="p-2">商品名</th>
+                    <th class="p-2">商品説明</th>
+                    <th class="p-2">価格</th>
+                    <th class="p-2"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr
+                    v-for="(item, itemIndex) in produceItems"
+                    :key="itemIndex"
+                  >
+                    <td class="p-2">
+                      {{ item.name }}
+                    </td>
+                    <td class="p-2">{{ item.description }}</td>
+                    <td class="p-2">{{ item.price }}円</td>
+                    <td class="p-2">
+                      <dashboard-button class="mr-3">削除</dashboard-button>
+
+                      <div
+                        class="btn btn-primary"
+                        @click="passItemIndex(itemIndex)"
+                      >
+                        <router-link to="/dashboard/item_details">
+                          詳細
+                        </router-link>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
-          </section>
-        </div>
-      </section>
-
-      <dashboard-modal
-        v-if="isModalOpened"
-        @close="closeModal"
-        :prev-ref="openModalBtn"
-      >
-      </dashboard-modal>
+            <div v-else-if="produceItems.length === 0" class="alert-light">
+              商品が登録されていません。
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, onMounted } from "vue";
+import { reactive, computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import DashboardHeader from "@/components/DashboardHeader.vue";
 import DashboardSidebar from "@/components/DashboardSidebar.vue";
 import DashboardButton from "@/components/DashboardButton.vue";
-import DashboardModal from "@/components/DashboardModal.vue";
-import { State } from "@/store/modules/produce";
+import { Produce } from "@/store/modules/produce";
 
-type ComponentState = State;
+type ComponentState = {
+  produceItems: Produce[];
+};
 
 export default defineComponent({
   name: "Dashboard",
@@ -70,11 +78,14 @@ export default defineComponent({
     DashboardButton,
     DashboardSidebar,
     DashboardHeader,
-    DashboardModal,
   },
   props: {},
-  setup: function (props) {
+  setup: function () {
     const store = useStore();
+
+    const state: ComponentState = reactive<ComponentState>({
+      produceItems: store.state.produce.items,
+    });
 
     // Get Produce Items
 
@@ -82,29 +93,20 @@ export default defineComponent({
       await store.dispatch("produce/getAndSetItems");
     };
 
-    onMounted(getAndSetProduceItems);
+    // function passItemIndex(itemIndex: number): void {
+    //   store.commit("ITEM_INDEX_OF_REVIEW", itemIndex);
+    // }
+
+    // onMounted(getAndSetProduceItems);
+    onMounted(() => {
+      getAndSetProduceItems();
+    });
 
     return {
       produceItems: computed(() => store.state.produce.items),
-    };
-
-    // eslint-disable-next-line no-unreachable
-    const isModalOpened = ref(false);
-
-    const openModalBtn = ref(null);
-
-    const openModal = () => {
-      isModalOpened.value = true;
-    };
-    // eslint-disable-next-line no-unreachable
-    const closeModal = () => {
-      isModalOpened.value = false;
-    };
-  },
-  data() {
-    return {
-      showModal: false,
+      state,
     };
   },
 });
 </script>
+<style scoped lang="scss"></style>

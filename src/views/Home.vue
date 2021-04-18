@@ -5,7 +5,8 @@
     <div>
       <h1 class="text-3xl text-gray-500 my-14">PRODUCE</h1>
     </div>
-    <div class="w-9/12 mx-auto">
+
+    <div v-if="produceItems.length > 0" class="w-9/12 mx-auto">
       <div
         v-for="(item, itemIndex) in produceItems"
         :key="itemIndex"
@@ -18,21 +19,24 @@
         />
       </div>
     </div>
+    <div v-else-if="produceItems.length === 0">商品を準備中です。</div>
     <app-footer></app-footer>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, onMounted } from "vue";
+import { reactive, computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import AppHeader from "@/components/AppHeader.vue";
 import AppFooter from "@/components/AppFooter.vue";
 import AppCard from "@/components/AppCard.vue";
-import { State } from "@/store/modules/produce";
+import { Produce } from "@/store/modules/produce";
 // import HelloWorld from '@/components/HelloWorld.vue';
 // @ is an alias to /src
 
-type ComponentState = State;
+type ComponentState = {
+  produceItems: Produce[];
+};
 
 export default defineComponent({
   name: "Home",
@@ -48,23 +52,26 @@ export default defineComponent({
 
     // Get Produce Items
 
+    const state: ComponentState = reactive<ComponentState>({
+      produceItems: store.state.produce.items,
+    });
+
+    // Get Produce Items
+
     const getAndSetProduceItems = async () => {
       await store.dispatch("produce/getAndSetItems");
     };
 
-    onMounted(getAndSetProduceItems);
+    onMounted(() => {
+      getAndSetProduceItems();
+    });
 
     return {
       produceItems: computed(() => store.state.produce.items),
+      state,
     };
   },
 });
 </script>
 
-<style scoped>
-.bg-fruit {
-  background: url(../assets/img_main_visual.jpg) no-repeat center;
-  background-attachment: fixed;
-  background-size: 1600px 1600px;
-}
-</style>
+<style scoped></style>

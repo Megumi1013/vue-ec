@@ -1,5 +1,38 @@
+body{
+  //background: linear-gradient(135deg, #beebe9, #fffdf9);
+  box-sizing: border-box;
+}
+.bg-fruit {
+  background: url(/public/images/img_main_visual.jpg) no-repeat fixed center;
+  background-size: 1600px 1600px;
+}
+.dashboard-app{
+  background: #e9f5f7;
+}
 .container{
-    margin: 1.6rem;
-    padding:2rem;
-  @apply shadow-md;
+  box-sizing: border-box;
+  background: #fffdf9;
+  margin: 2.6rem;
+  padding:2rem;
+  @apply rounded-lg shadow-lg min-h-screen;
+}
+.alert-danger{
+  @apply py-5 px-7 mb-8 mt-6 rounded-md;
+  background: #ffe0e0;
+}
+.alert-info{
+  @apply py-5 px-7 mb-8 mt-6 rounded-md;
+  background: #beebe9;
+}
+.alert-light{
+  @apply py-5 px-7 mb-8 mt-6 rounded-md;
+  background: #f0f0f0;
+}
+.btn-primary{
+  background:#8ac6d1;
+  //background: linear-gradient(135deg, #8ac6d1, #beebe9);
+}
+
+.btn {
+  @apply font-bold rounded-full py-3 px-8 text-white shadow-md hover:shadow-lg duration-700;
 }
