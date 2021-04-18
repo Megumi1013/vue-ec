@@ -14,7 +14,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
-  ignorePatterns: ["server.js", "src/store/**/*.ts"],
+  ignorePatterns: ["server.js", "src/store/**/*.ts", "dist/*"],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
