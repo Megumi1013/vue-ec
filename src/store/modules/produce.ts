@@ -67,10 +67,9 @@ export default {
         throw new Error("エラーが発生しました。");
       }
 
-      commit("SET_ITEMS", response.data.data.items);
+      commit("SET_ITEMS", response.data.items);
       commit("LOADING", true);
 
-      console.log(response.data.data.items);
     },
 
     async getAndSetReviews({
@@ -82,9 +81,9 @@ export default {
         throw new Error("エラーが発生しました。");
       }
 
-      commit("SET_REVIEWS", response.data.data.items);
+      commit("SET_REVIEWS", response.data.items);
       commit("LOADING", true);
-      console.log(response.data.data.items);
+      // console.log(response.data.data.items);
     },
   },
 };

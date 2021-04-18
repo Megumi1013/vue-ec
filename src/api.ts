@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import MockAdapter from "axios-mock-adapter";
+import { Produce, Review } from "@/store/modules/produce";
 
 if (process.env.NODE_ENV !== "production") {
   console.log("**USING MOCK API**");
@@ -99,7 +100,7 @@ if (process.env.NODE_ENV !== "production") {
 
 // All Items
 // : Promise<AxiosResponse<any>>
-export function getItems(): Promise<AxiosResponse<unknown>> {
+export function getItems(): Promise<AxiosResponse<{ items: Produce[] }>> {
   return axios.get(`${process.env.VUE_APP_API_URL}items`, {
     withCredentials: true,
     params: {
@@ -113,7 +114,7 @@ export function getItems(): Promise<AxiosResponse<unknown>> {
 
 // All reviews
 
-export function getReviews(): Promise<AxiosResponse<unknown>> {
+export function getReviews(): Promise<AxiosResponse<{ items: Review[] }>> {
   return axios.get(`${process.env.VUE_APP_API_URL}item/reviews`, {
     withCredentials: true,
     params: {
