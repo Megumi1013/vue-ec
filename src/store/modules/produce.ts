@@ -81,8 +81,8 @@ export default {
       if (response.status !== 200) {
         throw new Error("エラーが発生しました。");
       }
-
-      commit("SET_REVIEWS", response.data.items);
+      let data = response.data
+      commit("SET_REVIEWS", data.items);
       commit("LOADING", true);
       // console.log(response.data.data.items);
     },

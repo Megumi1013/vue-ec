@@ -1,9 +1,12 @@
 <template>
   <ul class="flex px-8 py-6 text-gray-500">
-    <li class="mr-8"><router-link to="/top">TOP</router-link></li>
-    <li><router-link to="/about">SHOP</router-link></li>
-    <li class="ml-auto">
-      <router-link to="/contact">CONTACT</router-link>
+    <li class="mr-8"><router-link to="/">TOP</router-link></li>
+    <li><router-link to="/about/">SHOP</router-link></li>
+    <li class="ml-auto mr-8">
+      <router-link to="/contact/">CONTACT</router-link>
+    </li>
+    <li>
+      <router-link to="/dashboard/">LOGIN</router-link>
     </li>
   </ul>
 </template>
