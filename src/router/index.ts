@@ -4,7 +4,7 @@ import CONTACT from "../views/Contact.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/top",
+    path: "/",
     name: "Home",
     component: Home,
   },

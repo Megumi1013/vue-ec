@@ -67,7 +67,8 @@ export default {
         throw new Error("エラーが発生しました。");
       }
 
-      commit("SET_ITEMS", response.data.items);
+      let data = response.data
+      commit("SET_ITEMS", data.items);
       commit("LOADING", true);
 
     },
