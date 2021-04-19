@@ -48,14 +48,5 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4",
     "typescript": "~4.1.5",
     "vue-jest": "^5.0.0-0"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
   }
 }
