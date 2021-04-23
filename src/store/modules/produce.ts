@@ -58,9 +58,7 @@ export default {
   },
 
   actions: {
-    async getAndSetItems({
-      commit,
-    }: ActionContext<State, State>): Promise<void> {
+    async getAndSetItems({ commit }: ActionContext<State, State>): Promise<void> {
       const response = await getItems();
 
       if (response.status !== 200) {
