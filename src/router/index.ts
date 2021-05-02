@@ -3,20 +3,16 @@ import Home from "../views/Home.vue";
 import CONTACT from "../views/Contact.vue";
 
 const routes: Array<RouteRecordRaw> = [
+  // {
+  //   path: "/:pathMatch(.*)*",
+  //   name: "Error404",
+  //   component: Error404
+  // },
   {
     path: "/",
     name: "Home",
     component: Home,
   },
-  // {
-  //   path: "/item_details",
-  //   name: "ItemDetails",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/ItemDetails.vue"),
-  // },
   {
     path: "/about",
     name: "About",
@@ -24,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "About" */ "../views/About.vue"),
   },
   {
     path: "/contact",
@@ -35,15 +31,27 @@ const routes: Array<RouteRecordRaw> = [
     path: "/dashboard",
     name: "Dashboard",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Dashboard.vue"),
+      import(/* webpackChunkName: "Dashboard" */ "../views/Dashboard.vue"),
   },
   {
-    path: "/dashboard/item_details",
-    name: "DashboardItemDetails",
+    path: "/dashboard/item/:id(\\d+)?",
+    name: "DashboardItemDetailsView",
     component: () =>
       import(
-        /* webpackChunkName: "about" */ "../views/DashboardItemDetails.vue"
+        /* webpackChunkName: "DashboardItemDetails" */ "../views/DashboardItemDetails.vue"
       ),
+    props: (route) => ({
+      id: route.params.id ? Number(route.params.id) : null,
+    }),
+  },
+  {
+    path: "/dashboard/item/:id(\\d+)/edit",
+    name: "DashboardItemDetailsEdit",
+    component: () =>
+      import(
+        /* webpackChunkName: "DashboardItemDetails" */ "../views/DashboardItemDetails.vue"
+      ),
+    props: (route) => ({ id: Number(route.params.id) }),
   },
 ];
 
