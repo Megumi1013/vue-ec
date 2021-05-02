@@ -1,38 +1,31 @@
 import { ActionContext } from "vuex";
-import { getItems, getReviews, createItem, updateItem, deleteItem, getItem } from "./../../api";
+import { getItems, getReviews, createItem, updateItem, deleteItem, getItem } from "@/api";
 
 export type Produce = {
-  id: number | null,
+  id: number | undefined,
   name: string,
   description: string | null,
   price: number,
-  isDisabled: boolean,
+  is_disabled: boolean,
   created_at: string,
   updated_at: string,
-};
+}
 
 export type Review = {
-  id: number | null,
+  id: number | undefined,
   item_id: number,
   name: string,
   content: string,
   star: number,
   created_at: string,
   updated_at: string,
-};
-
-export type Params = {
-  name: string | null;
-  description: string | null;
-  price: number | null;
 }
 
 export interface State {
-  items: Array<Produce>;
-  // @ts-ignore
-  item: Record<Produce, any>;
-  reviews: Array<Review>;
-  loading: boolean;
+  items: Produce[],
+  item: Produce,
+  reviews: Review[],
+  loading: boolean,
 }
 
 export default {
@@ -53,18 +46,23 @@ export default {
   },
 
   mutations: {
-    SET_ITEMS(state: State, payload: Array<Produce>): void {
+
+    SET_ITEMS(state: State, payload: Produce[]): void {
       state.items = payload;
     },
-    SET_ITEM(state: State, payload: Array<Produce>): void {
+
+    SET_ITEM(state: State, payload: Produce): void {
       state.item = payload;
     },
-    SET_REVIEWS(state: State, payload: Array<Review>): void {
+
+    SET_REVIEWS(state: State, payload: Review[]): void {
       state.reviews = payload;
     },
+
     LOADING(state: State, payload: boolean): void {
       state.loading = payload;
     },
+
   },
 
   actions: {
@@ -86,7 +84,7 @@ export default {
 
     },
 
-    async getAndSetItem({ commit }: ActionContext<State, State>, id: Number): Promise<void> {
+    async getAndSetItem({ commit }: ActionContext<State, State>, id: number): Promise<void> {
 
       commit("LOADING", true);
 
@@ -97,13 +95,12 @@ export default {
         throw new Error("エラーが発生しました。");
       }
 
-      // @ts-ignore
       commit("SET_ITEM", response.data.data);
       commit("LOADING", false);
 
     },
 
-    async deleteAndUnsetItem({ commit }: ActionContext<State, State>, id: Number): Promise<void> {
+    async deleteAndUnsetItem({ commit }: ActionContext<State, State>, id: number): Promise<void> {
 
       commit("LOADING", true);
 
@@ -139,15 +136,19 @@ export default {
     async getAndSetReviews({
       commit,
     }: ActionContext<State, State>): Promise<void> {
+
+      commit("LOADING", true);
+
       const response = await getReviews();
 
       if (response.status !== 200) {
+        commit("LOADING", false);
         throw new Error("エラーが発生しました。");
       }
-      let data = response.data
-      commit("SET_REVIEWS", data.items);
-      commit("LOADING", true);
-      // console.log(response.data.data.items);
+
+      commit("SET_REVIEWS", response.data.data.items);
+      commit("LOADING", false);
+
     },
 
 

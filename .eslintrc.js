@@ -18,8 +18,19 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "max-len": "off",
     "@typescript-eslint/no-var-requires": 0,
     "@typescript-eslint/ban-ts-ignore": "off",
+    "prettier/prettier": [
+      "warn",
+      {
+        editorconfig: true,
+        singleQuote: false,
+        semi: false,
+        trailingComma: "es5",
+        printWidth: 100,
+      }
+    ]
   },
   overrides: [
     {

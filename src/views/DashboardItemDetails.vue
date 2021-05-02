@@ -139,7 +139,7 @@ export default defineComponent({
         name: "",
         description: "",
         price: null,
-        isDisabled: false,
+        is_disabled: false,
       },
     });
 

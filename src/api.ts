@@ -1,14 +1,13 @@
-import axios, { AxiosResponse } from "axios";
-import MockAdapter from "axios-mock-adapter";
-import { Params, Produce, Review, State } from "@/store/modules/produce";
-import { ActionContext } from "vuex";
+import axios, { AxiosResponse } from "axios"
+import MockAdapter from "axios-mock-adapter"
+import { Produce, Review } from "@/store/modules/produce"
 
 if (process.env.NODE_ENV !== "production") {
-  console.log("**USING MOCK API**");
+  console.log("**USING MOCK API**")
 
   // Mock API
   // Section not needed with real API
-  const mock = new MockAdapter(axios, { delayResponse: 2000 });
+  const mock = new MockAdapter(axios, { delayResponse: 2000 })
 
   // All Items
 
@@ -32,7 +31,7 @@ if (process.env.NODE_ENV !== "production") {
             name: "test_name",
             description: "test_description",
             price: 100,
-            isDisabled: false,
+            is_disabled: false,
             created_at: "2021-05-02 12:00:00",
             updated_at: "2021-05-02 12:00:00",
           },
@@ -41,7 +40,7 @@ if (process.env.NODE_ENV !== "production") {
             name: "パイナップル",
             description: "宮崎産の美味しいパイナップル",
             price: 100,
-            isDisabled: false,
+            is_disabled: false,
             created_at: "2021-05-02 12:00:00",
             updated_at: "2021-05-02 12:00:00",
           },
@@ -60,7 +59,7 @@ if (process.env.NODE_ENV !== "production") {
           orderDirection: "desc",
         },
       },
-    });
+    })
 
   mock
     .onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/d+/reviews`), {
@@ -105,36 +104,33 @@ if (process.env.NODE_ENV !== "production") {
             },
           },
         },
-      ];
-    });
+      ]
+    })
 
-  mock
-    .onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/d+`))
-    .reply(function (config) {
-      return [
-        200,
-        {
-          code: 200,
-          message: "Successfully retrieved Item",
-          status: "item_show_success",
-          data: {
-            id: config.url,
-            name: "test_name",
-            description: "test_description",
-            price: 100,
-            is_disabled: false,
-            created_at: "2021-05-02 12:00:00",
-            updated_at: "2021-05-02 12:00:00",
-          },
+  mock.onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/d+`)).reply(function (config) {
+    return [
+      200,
+      {
+        code: 200,
+        message: "Successfully retrieved Item",
+        status: "item_show_success",
+        data: {
+          id: config.url,
+          name: "test_name",
+          description: "test_description",
+          price: 100,
+          is_disabled: false,
+          created_at: "2021-05-02 12:00:00",
+          updated_at: "2021-05-02 12:00:00",
         },
-      ];
-    });
+      },
+    ]
+  })
 }
 
 // Axios Requests
 
 // All Items
-// : Promise<AxiosResponse<any>>
 export function getItems(): Promise<AxiosResponse<{ items: Produce[] }>> {
   return axios.get(`${process.env.VUE_APP_API_URL}items`, {
     withCredentials: true,
@@ -144,43 +140,46 @@ export function getItems(): Promise<AxiosResponse<{ items: Produce[] }>> {
       orderBy: "created_at",
       orderDirection: "desc",
     },
-  });
+  })
 }
 
-export function getItem(id: any): Promise<AxiosResponse<{ item: Produce[] }>> {
+// Get Item
+export function getItem(id: number): Promise<AxiosResponse<{ data: { item: Produce } }>> {
   return axios.get(`${process.env.VUE_APP_API_URL}items/${id}`, {
     withCredentials: true,
-  });
+  })
 }
 
-export function deleteItem(id: any): Promise<AxiosResponse<{ any: any }>> {
+// Delete Item
+export function deleteItem(id: number): Promise<AxiosResponse<null>> {
   return axios.delete(`${process.env.VUE_APP_API_URL}items/${id}`, {
     withCredentials: true,
-  });
+  })
 }
 
+// Create Item
 export function createItem(
   item: Record<string, unknown>
-): Promise<AxiosResponse<{ item: Produce[] }>> {
+): Promise<AxiosResponse<{ data: { item: Produce } }>> {
   return axios.put(`${process.env.VUE_APP_API_URL}items`, {
     withCredentials: true,
     body: item,
-  });
+  })
 }
 
+// Update Item
 export function updateItem(
   id: number,
   item: Record<string, unknown>
-): Promise<AxiosResponse<{ item: Produce[] }>> {
+): Promise<AxiosResponse<{ data: { item: Produce } }>> {
   return axios.put(`${process.env.VUE_APP_API_URL}items/${id}`, {
     withCredentials: true,
     body: item,
-  });
+  })
 }
 
-// All reviews
-
-export function getReviews(): Promise<AxiosResponse<{ reviews: Review[] }>> {
+// All Reviews
+export function getReviews(): Promise<AxiosResponse<{ data: { items: Review[] } }>> {
   return axios.get(`${process.env.VUE_APP_API_URL}/reviews`, {
     withCredentials: true,
     params: {
@@ -190,5 +189,5 @@ export function getReviews(): Promise<AxiosResponse<{ reviews: Review[] }>> {
       orderBy: "created_at",
       orderDirection: "desc",
     },
-  });
+  })
 }
