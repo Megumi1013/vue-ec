@@ -1,14 +1,17 @@
 <template>
-  <button type="submit" class="btn mt-3" :class="color" @click="handleClick">
-    <slot></slot>
-  </button>
+  <button type="submit" class="btn mt-3" :class="color" @click="handleClick">{{ text }}}</button>
 </template>
 
 <script language="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from "vue"
 export default defineComponent({
-  name: "AppButton",
+  name: "PublicButton",
   props: {
+    text: {
+      type: String,
+      required: true,
+      default: "登録",
+    },
     color: {
       type: String,
       required: false,
@@ -17,13 +20,13 @@ export default defineComponent({
   },
   setup: function (props, context) {
     const handleClick = () => {
-      context.emit("handleClick");
-    };
+      context.emit("handleClick")
+    }
     return {
       handleClick,
-    };
+    }
   },
-});
+})
 </script>
 <style scoped>
 .btn {

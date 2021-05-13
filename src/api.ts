@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios"
 import MockAdapter from "axios-mock-adapter"
-import { Produce, Review } from "@/store/modules/produce"
+import { Produce, Review } from "@/./types"
 
 if (process.env.NODE_ENV !== "production") {
   console.log("**USING MOCK API**")
@@ -107,7 +107,11 @@ if (process.env.NODE_ENV !== "production") {
       ]
     })
 
-  mock.onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/d+`)).reply(function (config) {
+  mock.onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/[0-9]+`)).reply(function (config) {
+    console.debug("API Mock: onGet items/:id", config.url)
+
+    const id = config.url ? parseInt(config.url.split("/")[3]) : 1
+
     return [
       200,
       {
@@ -115,7 +119,7 @@ if (process.env.NODE_ENV !== "production") {
         message: "Successfully retrieved Item",
         status: "item_show_success",
         data: {
-          id: config.url,
+          id: id,
           name: "test_name",
           description: "test_description",
           price: 100,
@@ -131,20 +135,24 @@ if (process.env.NODE_ENV !== "production") {
 // Axios Requests
 
 // All Items
-export function getItems(): Promise<AxiosResponse<{ items: Produce[] }>> {
+export function getItems(
+  params: Record<string, unknown> | null = null
+): Promise<AxiosResponse<{ items: Produce[] }>> {
   return axios.get(`${process.env.VUE_APP_API_URL}items`, {
     withCredentials: true,
     params: {
-      page: 1,
-      perPage: 10,
-      orderBy: "created_at",
-      orderDirection: "desc",
+      page: params ? params.page : 1,
+      per_page: params ? params.per_page : 10,
+      order_by: params ? params.order_by : "created_at",
+      order_direction: params ? params.order_direction : "desc",
     },
   })
 }
 
 // Get Item
 export function getItem(id: number): Promise<AxiosResponse<{ data: { item: Produce } }>> {
+  console.debug("API: getItem ", id)
+
   return axios.get(`${process.env.VUE_APP_API_URL}items/${id}`, {
     withCredentials: true,
   })
@@ -152,6 +160,8 @@ export function getItem(id: number): Promise<AxiosResponse<{ data: { item: Produ
 
 // Delete Item
 export function deleteItem(id: number): Promise<AxiosResponse<null>> {
+  console.debug("API: deleteItem ", id)
+
   return axios.delete(`${process.env.VUE_APP_API_URL}items/${id}`, {
     withCredentials: true,
   })
@@ -161,6 +171,8 @@ export function deleteItem(id: number): Promise<AxiosResponse<null>> {
 export function createItem(
   item: Record<string, unknown>
 ): Promise<AxiosResponse<{ data: { item: Produce } }>> {
+  console.debug("API: createItem")
+
   return axios.put(`${process.env.VUE_APP_API_URL}items`, {
     withCredentials: true,
     body: item,
@@ -172,22 +184,45 @@ export function updateItem(
   id: number,
   item: Record<string, unknown>
 ): Promise<AxiosResponse<{ data: { item: Produce } }>> {
+  console.debug("API: updateItem", id)
+
   return axios.put(`${process.env.VUE_APP_API_URL}items/${id}`, {
     withCredentials: true,
     body: item,
   })
 }
 
-// All Reviews
-export function getReviews(): Promise<AxiosResponse<{ data: { items: Review[] } }>> {
-  return axios.get(`${process.env.VUE_APP_API_URL}/reviews`, {
+// Get Item Reviews
+export function getItemReviews(
+  id: number,
+  params: Record<string, unknown> | null = null
+): Promise<AxiosResponse<{ data: { items: Review[] } }>> {
+  console.debug("API: getItemReviews", id)
+
+  return axios.get(`${process.env.VUE_APP_API_URL}items/${id}/reviews`, {
     withCredentials: true,
     params: {
-      type: "item",
-      page: 1,
-      perPage: 10,
-      orderBy: "created_at",
-      orderDirection: "desc",
+      page: params ? params.page : 1,
+      per_page: params ? params.per_page : 10,
+      order_by: params ? params.order_by : "created_at",
+      order_direction: params ? params.order_direction : "desc",
+    },
+  })
+}
+
+// Get Reviews
+export function getReviews(
+  params: Record<string, unknown> | null = null
+): Promise<AxiosResponse<{ data: { items: Review[] } }>> {
+  console.debug("API: getReviews")
+
+  return axios.get(`${process.env.VUE_APP_API_URL}reviews`, {
+    withCredentials: true,
+    params: {
+      page: params ? params.page : 1,
+      per_page: params ? params.per_page : 10,
+      order_by: params ? params.order_by : "created_at",
+      order_direction: params ? params.order_direction : "desc",
     },
   })
 }

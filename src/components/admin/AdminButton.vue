@@ -5,9 +5,9 @@
 </template>
 
 <script language="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from "vue"
 export default defineComponent({
-  name: "DashboardButton",
+  name: "adminButton",
   props: {
     color: {
       type: String,
@@ -17,12 +17,12 @@ export default defineComponent({
   },
   setup: function (props, context) {
     const handleClick = () => {
-      context.emit("handleClick");
-    };
+      context.emit("handleClick")
+    }
     return {
       handleClick,
-    };
+    }
   },
-});
+})
 </script>
 <style scoped></style>

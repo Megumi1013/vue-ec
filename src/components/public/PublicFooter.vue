@@ -3,9 +3,9 @@
 </template>
 
 <script language="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from "vue"
 export default defineComponent({
-  name: "AppFooter",
+  name: "PublicFooter",
   props: {},
-});
+})
 </script>

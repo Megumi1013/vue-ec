@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="sidebar rounded-xl py-3 px-8 min-h-screen shadow-lg text-gray-500 hidden md:block"
-  >
+  <div class="sidebar rounded-xl py-3 px-8 min-h-screen shadow-lg text-gray-500 hidden md:block">
     <ul class="text-left">
-      <li class="p-4 text-3xl"><router-link to="/top">LOGO</router-link></li>
+      <li class="p-4 text-3xl"><router-link to="/admin">LOGO</router-link></li>
       <li class="p-4 sidebar-link">
-        <router-link to="/dashboard" class="block flex items-center">
+        <router-link to="/admin" class="block flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5 mr-1"
@@ -22,7 +20,7 @@
         >
       </li>
       <li class="p-4 sidebar-link">
-        <router-link to="/dashboard/reviews" class="block flex items-center">
+        <router-link to="/reviews" class="block flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5 mr-1"
@@ -41,11 +39,11 @@
 </template>
 
 <script language="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from "vue"
 export default defineComponent({
-  name: "DashboardSidebar",
+  name: "AdminSidebar",
   props: {},
-});
+})
 </script>
 
 <style scoped>

@@ -23,20 +23,22 @@
             <option value="3">3</option>
           </select>
         </div>
-        <app-button>購入する</app-button>
+        <router-link :to="routerLink" tag="button" class="btn bg-green-700 block">
+          購入する
+        </router-link>
       </div>
     </div>
   </router-link>
 </template>
 
 <script language="ts">
-import { defineComponent } from "vue";
-import AppButton from "@/components/AppButton";
+import { defineComponent } from "vue"
+import PublicButton from "@/components/public/PublicButton"
 export default defineComponent({
-  name: "AppCard",
+  name: "PublicCard",
 
   components: {
-    AppButton,
+    // PublicButton
   },
   props: {
     src: {
@@ -55,6 +57,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    routerLink: {
+      type: String,
+      required: true,
+    },
   },
-});
+})
 </script>

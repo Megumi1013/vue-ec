@@ -1,8 +1,17 @@
 import { createStore } from "vuex";
-import produce from "./modules/produce";
+import { produce, ProduceState } from "./modules/produce";
+import { reviews, ReviewsState } from "./modules/reviews";
 
-export default createStore({
+interface State {
+  produce: ProduceState,
+  reviews: ReviewsState
+}
+
+const store = createStore<State>({
   modules: {
     produce,
+    reviews,
   },
 });
+
+export { store, State }

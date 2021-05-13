@@ -1,6 +1,5 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
-import CONTACT from "../views/Contact.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
+import Home from "../views/public/Home.vue"
 
 const routes: Array<RouteRecordRaw> = [
   // {
@@ -15,49 +14,52 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "About" */ "../views/About.vue"),
+    name: "PublicAbout",
+    component: () => import(/* webpackChunkName: "PublicAbout" */ "../views/public/About.vue"),
   },
   {
-    path: "/contact",
-    name: "Contact",
-    component: CONTACT,
+    path: "/admin",
+    name: "AdminDashboard",
+    component: () =>
+      import(/* webpackChunkName: "AdminDashboard" */ "../views/admin/Dashboard.vue"),
+    // beforeEnter and check is logged in and admin?
+    children: [
+      {
+        path: "item/:id(\\d+)/edit",
+        name: "AdminItemEdit",
+        component: () =>
+          import(/* webpackChunkName: "AdminItemEdit" */ "../views/admin/item/ItemEdit.vue"),
+        props: (route) => ({
+          id: route.params.id ? Number(route.params.id) : null,
+        }),
+      },
+      {
+        path: "item/create",
+        name: "AdminItemCreate",
+        component: () =>
+          import(/* webpackChunkName: "AdminItemEdit" */ "../views/admin/item/ItemCreate.vue"),
+      },
+    ],
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
+    path: "/item/:id(\\d+)/edit",
+    name: "PublicItemDetail",
     component: () =>
-      import(/* webpackChunkName: "Dashboard" */ "../views/Dashboard.vue"),
-  },
-  {
-    path: "/dashboard/item/:id(\\d+)?",
-    name: "DashboardItemDetailsView",
-    component: () =>
-      import(
-        /* webpackChunkName: "DashboardItemDetails" */ "../views/DashboardItemDetails.vue"
-      ),
+      import(/* webpackChunkName: "itemDetails" */ "../views/public/item/ItemDetail.vue"),
     props: (route) => ({
       id: route.params.id ? Number(route.params.id) : null,
     }),
   },
   {
-    path: "/dashboard/item/:id(\\d+)/edit",
-    name: "DashboardItemDetailsEdit",
-    component: () =>
-      import(
-        /* webpackChunkName: "DashboardItemDetails" */ "../views/DashboardItemDetails.vue"
-      ),
-    props: (route) => ({ id: Number(route.params.id) }),
+    path: "/contact",
+    name: "PublicContact",
+    component: () => import(/* webpackChunkName: "PublicContact" */ "../views/public/Contact.vue"),
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-});
+})
 
-export default router;
+export default router

@@ -1,34 +1,16 @@
-import { ActionContext } from "vuex";
-import { getItems, getReviews, createItem, updateItem, deleteItem, getItem } from "@/api";
+import {ActionContext, Module} from "vuex";
+import { getItems, getItemReviews, createItem, updateItem, deleteItem, getItem } from "@/api";
+import {Produce, Review} from "@/types";
+import {State} from "@/store";
 
-export type Produce = {
-  id: number | undefined,
-  name: string,
-  description: string | null,
-  price: number,
-  is_disabled: boolean,
-  created_at: string,
-  updated_at: string,
-}
-
-export type Review = {
-  id: number | undefined,
-  item_id: number,
-  name: string,
-  content: string,
-  star: number,
-  created_at: string,
-  updated_at: string,
-}
-
-export interface State {
+interface ProduceState {
   items: Produce[],
-  item: Produce,
+  item: Produce | null,
   reviews: Review[],
   loading: boolean,
 }
 
-export default {
+const produce: Module<ProduceState, State> = {
   namespaced: true,
 
   state: () => ({
@@ -39,27 +21,27 @@ export default {
   }),
 
   getters: {
-    items: (state: State) => state.items,
-    item: (state: State) => state.item,
-    reviews: (state: State) => state.reviews,
-    loading: (state: State) => state.loading,
+    items: (state: ProduceState) => state.items,
+    item: (state: ProduceState) => state.item,
+    reviews: (state: ProduceState) => state.reviews,
+    loading: (state: ProduceState) => state.loading,
   },
 
   mutations: {
 
-    SET_ITEMS(state: State, payload: Produce[]): void {
+    SET_ITEMS(state: ProduceState, payload: Produce[]): void {
       state.items = payload;
     },
 
-    SET_ITEM(state: State, payload: Produce): void {
+    SET_ITEM(state: ProduceState, payload: Produce): void {
       state.item = payload;
     },
 
-    SET_REVIEWS(state: State, payload: Review[]): void {
+    SET_REVIEWS(state: ProduceState, payload: Review[]): void {
       state.reviews = payload;
     },
 
-    LOADING(state: State, payload: boolean): void {
+    LOADING(state: ProduceState, payload: boolean): void {
       state.loading = payload;
     },
 
@@ -67,7 +49,7 @@ export default {
 
   actions: {
 
-    async getAndSetItems({ commit }: ActionContext<State, State>): Promise<void> {
+    async getAndSetItems({ commit }: ActionContext<ProduceState, State>): Promise<void> {
 
       commit("LOADING", true);
 
@@ -84,7 +66,7 @@ export default {
 
     },
 
-    async getAndSetItem({ commit }: ActionContext<State, State>, id: number): Promise<void> {
+    async getAndSetItem({ commit }: ActionContext<ProduceState, State>, id: number): Promise<void> {
 
       commit("LOADING", true);
 
@@ -100,7 +82,7 @@ export default {
 
     },
 
-    async deleteAndUnsetItem({ commit }: ActionContext<State, State>, id: number): Promise<void> {
+    async deleteAndUnsetItem({ commit }: ActionContext<ProduceState, State>, id: number): Promise<void> {
 
       commit("LOADING", true);
 
@@ -116,7 +98,7 @@ export default {
 
     },
 
-    async createAndSetItem({ commit }: ActionContext<State, State>, item: Produce): Promise<void> {
+    async createAndSetItem({ commit }: ActionContext<ProduceState, State>, item: Produce): Promise<void> {
 
       commit("LOADING", true);
 
@@ -133,13 +115,13 @@ export default {
 
     },
 
-    async getAndSetReviews({
+    async getAndSetItemReviews({
       commit,
-    }: ActionContext<State, State>): Promise<void> {
+    }: ActionContext<ProduceState, State>, id: number): Promise<void> {
 
       commit("LOADING", true);
 
-      const response = await getReviews();
+      const response = await getItemReviews(id);
 
       if (response.status !== 200) {
         commit("LOADING", false);
@@ -154,3 +136,5 @@ export default {
 
   },
 };
+
+export { produce, ProduceState }
