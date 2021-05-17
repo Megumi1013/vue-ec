@@ -25,6 +25,12 @@ const routes: Array<RouteRecordRaw> = [
     // beforeEnter and check is logged in and admin?
     children: [
       {
+        path: "items",
+        name: "AdminItemList",
+        component: () =>
+          import(/* webpackChunkName: "AdminItemList" */ "../views/admin/item/ItemList.vue"),
+      },
+      {
         path: "item/:id(\\d+)/edit",
         name: "AdminItemEdit",
         component: () =>

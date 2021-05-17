@@ -6,7 +6,7 @@
       <router-link to="/contact/">CONTACT</router-link>
     </li>
     <li>
-      <router-link to="/dashboard/">LOGIN</router-link>
+      <router-link to="/admin/">LOGIN</router-link>
     </li>
   </ul>
 </template>

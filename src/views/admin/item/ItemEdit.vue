@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <section class="md:w-full sm:w-11/12 px-10 py-7 text-left">
     <div v-if="produceLoading">Loading</div>
     <div v-else>
       <h3 v-if="item">Editing Item: {{ item.name }}</h3>
     </div>
     <admin-item-form v-model="itemToEdit" @save="onItemSave"></admin-item-form>
     <admin-reviews></admin-reviews>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -14,11 +14,11 @@ import { reactive, computed, defineComponent, onMounted, toRefs } from "vue"
 import { ActionContext, useStore } from "vuex"
 import AdminItemForm from "@/components/admin/AdminItemForm.vue"
 import AdminReviews from "@/components/admin/AdminReviews.vue"
-import { Produce } from "@/types"
+import { Product } from "@/types"
 
 type ComponentState = {
-  item: Produce | null
-  itemToEdit: Produce | null
+  item: Product | null
+  itemToEdit: Product | null
 }
 
 export default defineComponent({

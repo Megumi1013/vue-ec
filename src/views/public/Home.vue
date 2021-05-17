@@ -27,12 +27,12 @@ import { useStore } from "vuex"
 import PublicHeader from "@/components/public/PublicHeader.vue"
 import PublicFooter from "@/components/public/PublicFooter.vue"
 import PublicCard from "@/components/public/PublicCard.vue"
-import { Produce } from "@/types"
+import { Product } from "@/types"
 // import HelloWorld from '@/components/HelloWorld.vue';
 // @ is an alias to /src
 
 type ComponentState = {
-  produceItems: Produce[]
+  produceItems: Product[]
 }
 
 export default defineComponent({

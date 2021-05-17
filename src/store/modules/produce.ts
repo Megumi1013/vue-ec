@@ -1,11 +1,11 @@
 import {ActionContext, Module} from "vuex";
 import { getItems, getItemReviews, createItem, updateItem, deleteItem, getItem } from "@/api";
-import {Produce, Review} from "@/types";
+import {Product, Review} from "@/types";
 import {State} from "@/store";
 
 interface ProduceState {
-  items: Produce[],
-  item: Produce | null,
+  items: Product[],
+  item: Product | null,
   reviews: Review[],
   loading: boolean,
 }
@@ -60,7 +60,6 @@ const produce: Module<ProduceState, State> = {
         throw new Error("エラーが発生しました。");
       }
 
-      // @ts-ignore
       commit("SET_ITEMS", response.data.data.items);
       commit("LOADING", false);
 
@@ -98,7 +97,7 @@ const produce: Module<ProduceState, State> = {
 
     },
 
-    async createAndSetItem({ commit }: ActionContext<ProduceState, State>, item: Produce): Promise<void> {
+    async createAndSetItem({ commit }: ActionContext<ProduceState, State>, item: Product): Promise<void> {
 
       commit("LOADING", true);
 

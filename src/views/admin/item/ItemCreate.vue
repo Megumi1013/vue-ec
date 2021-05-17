@@ -1,47 +1,27 @@
 <template>
-  <div class="admin">
-    <div class="md:flex">
-      <admin-sidebar></admin-sidebar>
-      <div class="container">
-        <admin-header></admin-header>
-        <admin-item-form @save="createItem"></admin-item-form>
-      </div>
-    </div>
-  </div>
+  <section class="md:w-full sm:w-11/12 px-10 py-7 text-left">
+    <admin-item-form @save="createItem"></admin-item-form>
+  </section>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onMounted } from "vue"
-import { useStore } from "vuex"
-import AdminHeader from "@/components/admin/AdminHeader.vue"
-import AdminSidebar from "@/components/admin/AdminSidebar.vue"
 import AdminItemForm from "@/components/admin/AdminItemForm.vue"
+import { productState, createProduct } from "@/composables/useProducts"
+import { Product } from "@/types"
 
 export default defineComponent({
   name: "DashboardItemCreate",
   components: {
-    AdminHeader,
-    AdminSidebar,
     AdminItemForm,
   },
   setup: function (props) {
-    const store = useStore()
-
-    const getAndSetReviewItems = async () => {
-      await store.dispatch("produce/getAndSetReviews")
+    const createItem = (product: Product) => {
+      createProduct(product)
     }
-
-    const createItem = async (): Promise<void> => {
-      await store.dispatch("produce/createAndSetItem")
-    }
-
-    onMounted(() => {
-      getAndSetReviewItems()
-    })
 
     return {
-      produceItem: computed(() => store.state.produce.item),
-      reviewItems: computed(() => store.state.produce.reviews),
+      product: computed(() => productState.product),
       createItem,
     }
   },

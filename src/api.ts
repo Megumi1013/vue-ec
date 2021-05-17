@@ -1,32 +1,73 @@
 import axios, { AxiosResponse } from "axios"
 import MockAdapter from "axios-mock-adapter"
-import { Produce, Review } from "@/./types"
+import { Product, Review } from "@/./types"
 
 if (process.env.NODE_ENV !== "production") {
   console.log("**USING MOCK API**")
 
   // Mock API
   // Section not needed with real API
-  const mock = new MockAdapter(axios, { delayResponse: 2000 })
+  const mock = new MockAdapter(axios, { delayResponse: 2000, onNoMatch: "throwException" })
 
   // All Items
 
-  mock
-    .onGet(`${process.env.VUE_APP_API_URL}items`, {
-      params: {
-        page: 1,
-        perPage: 10,
-        orderBy: "created_at",
-        orderDirection: "desc",
+  mock.onGet(`${process.env.VUE_APP_API_URL}items`).reply(function (config) {
+    console.log("Mock API: onGet items")
+    return [
+      200,
+      {
+        code: 200,
+        message: "Successfully retrieved Items",
+        status: "items_index_success",
+        data: {
+          items: [
+            {
+              id: 1,
+              name: "test_name",
+              description: "test_description",
+              price: 100,
+              is_disabled: false,
+              created_at: "2021-05-02 12:00:00",
+              updated_at: "2021-05-02 12:00:00",
+            },
+            {
+              id: 2,
+              name: "パイナップル",
+              description: "宮崎産の美味しいパイナップル",
+              price: 100,
+              is_disabled: false,
+              created_at: "2021-05-02 12:00:00",
+              updated_at: "2021-05-02 12:00:00",
+            },
+          ],
+          meta: {
+            prevPage: 0,
+            currentPage: 1,
+            nextPage: 0,
+            currentItemsTotal: 1,
+            itemsTotal: 1,
+            pagesTotal: 1,
+            perPage: 10,
+            from: 1,
+            to: 1,
+            orderBy: "created_at",
+            orderDirection: "desc",
+          },
+        },
       },
-    })
-    .reply(200, {
-      code: 200,
-      message: "Successfully retrieved Items",
-      status: "items_index_success",
-      data: {
-        items: [
-          {
+    ]
+  })
+
+  mock.onPost(`${process.env.VUE_APP_API_URL}items`).reply(function (config) {
+    console.log("Mock API: onGet items")
+    return [
+      200,
+      {
+        code: 200,
+        message: "Successfully retrieved Items",
+        status: "items_index_success",
+        data: {
+          items: {
             id: 1,
             name: "test_name",
             description: "test_description",
@@ -35,31 +76,10 @@ if (process.env.NODE_ENV !== "production") {
             created_at: "2021-05-02 12:00:00",
             updated_at: "2021-05-02 12:00:00",
           },
-          {
-            id: 2,
-            name: "パイナップル",
-            description: "宮崎産の美味しいパイナップル",
-            price: 100,
-            is_disabled: false,
-            created_at: "2021-05-02 12:00:00",
-            updated_at: "2021-05-02 12:00:00",
-          },
-        ],
-        meta: {
-          prevPage: 0,
-          currentPage: 1,
-          nextPage: 0,
-          currentItemsTotal: 1,
-          itemsTotal: 1,
-          pagesTotal: 1,
-          perPage: 10,
-          from: 1,
-          to: 1,
-          orderBy: "created_at",
-          orderDirection: "desc",
         },
       },
-    })
+    ]
+  })
 
   mock
     .onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/d+/reviews`), {
@@ -137,7 +157,8 @@ if (process.env.NODE_ENV !== "production") {
 // All Items
 export function getItems(
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ items: Produce[] }>> {
+): Promise<AxiosResponse<{ data: { items: Product[] } }>> {
+  console.log("API getItems: " + `${process.env.VUE_APP_API_URL}items`)
   return axios.get(`${process.env.VUE_APP_API_URL}items`, {
     withCredentials: true,
     params: {
@@ -150,7 +171,7 @@ export function getItems(
 }
 
 // Get Item
-export function getItem(id: number): Promise<AxiosResponse<{ data: { item: Produce } }>> {
+export function getItem(id: number): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: getItem ", id)
 
   return axios.get(`${process.env.VUE_APP_API_URL}items/${id}`, {
@@ -170,7 +191,7 @@ export function deleteItem(id: number): Promise<AxiosResponse<null>> {
 // Create Item
 export function createItem(
   item: Record<string, unknown>
-): Promise<AxiosResponse<{ data: { item: Produce } }>> {
+): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: createItem")
 
   return axios.put(`${process.env.VUE_APP_API_URL}items`, {
@@ -183,7 +204,7 @@ export function createItem(
 export function updateItem(
   id: number,
   item: Record<string, unknown>
-): Promise<AxiosResponse<{ data: { item: Produce } }>> {
+): Promise<AxiosResponse<{ data: { item: Product } }>> {
   console.debug("API: updateItem", id)
 
   return axios.put(`${process.env.VUE_APP_API_URL}items/${id}`, {

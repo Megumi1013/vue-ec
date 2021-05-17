@@ -1,5 +1,5 @@
-export type Produce = {
-  id: number | undefined
+export type Product = {
+  id?: number
   name: string
   description: string | null
   price: number
@@ -9,7 +9,7 @@ export type Produce = {
 }
 
 export type Review = {
-  id: number | undefined
+  id?: number
   item_id: number
   name: string
   content: string
