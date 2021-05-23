@@ -11,41 +11,72 @@
       @save="onItemSave"
     ></admin-item-form>
 
+    <div class="my-24">
+      <h2>この商品のレビュー</h2>
+      <div v-if="reviews">
+        <div
+          v-if="reviewsLoading"
+          class="mt-5 mb-8 rounded-md bg-gray-200 animate-pulse w-full h-16"
+        ></div>
+        <div v-else>
+          <table class="w-full my-3">
+            <thead>
+              <tr class="border-gray-200">
+                <th class="p-2">レビューID</th>
+                <th class="p-2">登録者</th>
+                <th class="p-2">レビュー内容</th>
+                <th class="p-2">星の数</th>
+                <th class="p-2">作成日</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr v-for="(review, productIndex) in reviews" :key="productIndex">
+                <td class="p-2">{{ review.id }}</td>
+                <td class="p-2">
+                  {{ review.name }}
+                </td>
+                <td class="p-2">{{ review.content }}</td>
+                <td class="p-2">{{ review.star }}</td>
+                <td class="p-2">{{ review.created_at }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div v-else class="alert-light">レビューが登録されていません。</div>
+    </div>
+
     <div class="md:flex md:justify-between">
       <div>
         <admin-button
           @handleClick="onItemSave"
           :disabled="!state.productToEdit || anyLoading"
           class="btn-primary"
-          >登録</admin-button
+          >再登録</admin-button
         >
       </div>
       <div>
-        <admin-button @handleClick="onItemReset" class="ml-3">リセット</admin-button>
+        <admin-button @handleClick="onItemReset" class="ml-3">編集をリセット</admin-button>
       </div>
       <div class="md:ml-auto">
-        <admin-button @handleClick.stop="agreementDialog.value = true" class="ml-3 btn-danger"
+        <admin-button @handleClick="agreementDialog = true" class="ml-3 btn-danger"
           >削除</admin-button
         >
-        <admin-dialog :agreementDialog="agreementDialog.value"
+        <admin-dialog
+          :agreementDialog="agreementDialog"
+          @onAgreeClick="onItemDelete"
+          @onDisagreeClick="onCancel"
           >この商品を削除します。よろしいですか。</admin-dialog
         >
       </div>
     </div>
-    <!--    <admin-reviews></admin-reviews>-->
   </section>
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  reactive,
-  ref,
-  toRefs,
-  WritableComputedRef,
-} from "vue"
+import { computed, defineComponent, onMounted, reactive, ref, WritableComputedRef } from "vue"
 import {
   productsState,
   getAndSetProduct,
@@ -53,10 +84,10 @@ import {
   updateProduct,
 } from "@/composables/useProducts"
 import AdminItemForm from "@/components/admin/AdminItemForm.vue"
-import AdminReviews from "@/components/admin/AdminReviews.vue"
 import { Product } from "@/types"
 import AdminButton from "@/components/admin/AdminButton.vue"
 import AdminDialog from "@/components/admin/AdminDialog.vue"
+import { getAndSetProductReviews, reviewsState } from "@/composables/useReviews"
 
 interface ComponentState {
   product: Product | null
@@ -82,10 +113,11 @@ export default defineComponent({
       product: null,
       productToEdit: null,
     })
-    const agreementDialog = ref(false)
+    const agreementDialog = ref<boolean>(false)
 
     onMounted(() => {
       setProductInForm()
+      getAndSetProductReviews(props.id)
     })
 
     const setProductInForm = async (): Promise<void> => {
@@ -101,8 +133,11 @@ export default defineComponent({
 
     const onItemDelete = async (): Promise<void> => {
       await deleteProduct(props.id)
+      agreementDialog.value = false
     }
-
+    const onCancel = () => {
+      agreementDialog.value = false
+    }
     const onItemReset = () => {
       state.productToEdit = state.product
     }
@@ -117,6 +152,9 @@ export default defineComponent({
       onItemDelete,
       onItemReset,
       agreementDialog,
+      onCancel,
+      reviews: computed(() => reviewsState.reviews),
+      reviewsLoading: computed(() => reviewsState.loading),
     }
   },
 })

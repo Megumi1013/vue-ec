@@ -81,6 +81,30 @@ if (process.env.NODE_ENV !== "production") {
     ]
   })
 
+  mock.onGet(`${process.env.VUE_APP_API_URL}reviews`).reply(function (config) {
+    return [
+      200,
+      {
+        code: 200,
+        message: "Successfully retrieved Item Reviews",
+        status: "item_reviews_index_success",
+        data: {
+          items: [
+            {
+              id: 1,
+              item_id: config.url,
+              name: "Review One",
+              content: "Review Desc",
+              star: 3,
+              created_at: "2021-05-02 12:00:00",
+              updated_at: "2021-05-02 12:00:00",
+            },
+          ],
+        },
+      },
+    ]
+  })
+
   mock
     .onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/d+/reviews`), {
       params: {

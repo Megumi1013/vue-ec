@@ -3,7 +3,7 @@
     <ul class="text-left">
       <li class="p-4 text-3xl"><router-link to="/admin">LOGO</router-link></li>
       <li class="p-4 sidebar-link">
-        <router-link to="/admin" class="block flex items-center">
+        <router-link to="/admin/items" class="block flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5 mr-1"
@@ -20,7 +20,7 @@
         >
       </li>
       <li class="p-4 sidebar-link">
-        <router-link to="/reviews" class="block flex items-center">
+        <router-link to="/admin/reviews" class="block flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5 mr-1"

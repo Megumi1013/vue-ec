@@ -25,4 +25,8 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped></style>
+<style scoped>
+.btn {
+  @apply font-bold rounded-full py-2 px-6 text-white shadow-md hover:shadow-lg duration-700;
+}
+</style>
