@@ -33,6 +33,10 @@ body{
   //background: linear-gradient(135deg, #8ac6d1, #beebe9);
 }
 
+.btn-danger{
+  background:$danger-color;
+}
+
 .btn {
   @apply font-bold rounded-full py-3 px-8 text-white shadow-md hover:shadow-lg duration-700;
 }
