@@ -9,7 +9,7 @@
     <div v-if="!anyLoading" class="w-full">
       <input-form v-model="product.name" />
     </div>
-    <div v-else>Loading...</div>
+    <div v-else class="rounded-md bg-gray-200 animate-pulse w-full h-11"></div>
   </label>
 
   <label class="block my-12 sm:flex items-center">
@@ -17,7 +17,7 @@
     <div v-if="!anyLoading" class="w-full">
       <textarea-form v-model="product.description" />
     </div>
-    <div v-else>Loading...</div>
+    <div v-else class="rounded-md bg-gray-200 animate-pulse w-full h-24"></div>
   </label>
 
   <label class="block my-12 sm:flex items-center">
@@ -27,7 +27,7 @@
       <input-form v-model="product.price"></input-form>
     </div>
 
-    <div v-else>Loading...</div>
+    <div v-else class="rounded-md bg-gray-200 animate-pulse w-full h-11"></div>
   </label>
 
   <!--  <button @click="onSaveClick" class="btn btn-primary" :disabled="!product || anyLoading">-->
