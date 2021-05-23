@@ -12,14 +12,9 @@
 </template>
 
 <script lang="ts">
-import { reactive, computed, defineComponent, onMounted } from "vue"
-import { useStore } from "vuex"
+import { defineComponent } from "vue"
 import AdminHeader from "@/components/admin/AdminHeader.vue"
 import AdminSidebar from "@/components/admin/AdminSidebar.vue"
-
-// type ComponentState = {
-//   produceitems: Product[]
-// }
 
 export default defineComponent({
   name: "Dashboard",
@@ -29,30 +24,6 @@ export default defineComponent({
   },
   props: {},
   setup: function () {
-    // vuex
-    // const store = useStore()
-
-    // const state: ComponentState = reactive<ComponentState>({
-    //   produceItems: store.state.produce.items,
-    // })
-    //
-    // const getAndSetProduceItems = async () => {
-    //   await store.dispatch("produce/getAndSetItems")
-    // }
-    //
-    // function passItemIndex(itemIndex: number): void {
-    //   store.commit("ITEM_INDEX_OF_REVIEW", itemIndex)
-    // }
-
-    // onMounted(getAndSetProduceItems);
-    // onMounted(() => {
-    //   getAndSetProduceItems()
-    // })
-
-    // const deleteItem = async () => {
-    //   await store.dispatch("produce/deleteItem")
-    // }
-
     return {}
   },
 })

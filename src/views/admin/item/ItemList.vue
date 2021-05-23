@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted } from "vue"
-import { productState, getAndSetProducts, deleteProduct } from "@/composables/useProducts"
+import { productsState, getAndSetProducts, deleteProduct } from "@/composables/useProducts"
 import AdminButton from "@/components/admin/AdminButton.vue"
 import { Product } from "@/types"
 
@@ -75,8 +75,8 @@ export default defineComponent({
     }
 
     return {
-      products: computed(() => productState.products),
-      loading: computed(() => productState.loading),
+      products: computed(() => productsState.products),
+      loading: computed(() => productsState.loading),
       onDeleteProductClick,
     }
   },

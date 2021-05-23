@@ -155,9 +155,9 @@ if (process.env.NODE_ENV !== "production") {
 // Axios Requests
 
 // All Items
-export function getItems(
+export function getApiProducts(
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { items: Product[] } }>> {
+): Promise<AxiosResponse<{ data: { items: Product[]; meta: Record<any, any> } }>> {
   console.log("API getItems: " + `${process.env.VUE_APP_API_URL}items`)
   return axios.get(`${process.env.VUE_APP_API_URL}items`, {
     withCredentials: true,
@@ -171,7 +171,7 @@ export function getItems(
 }
 
 // Get Item
-export function getItem(id: number): Promise<AxiosResponse<{ data: Product }>> {
+export function getApiProduct(id: number): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: getItem ", id)
 
   return axios.get(`${process.env.VUE_APP_API_URL}items/${id}`, {
@@ -180,7 +180,7 @@ export function getItem(id: number): Promise<AxiosResponse<{ data: Product }>> {
 }
 
 // Delete Item
-export function deleteItem(id: number): Promise<AxiosResponse<null>> {
+export function deleteApiProduct(id: number): Promise<AxiosResponse<null>> {
   console.debug("API: deleteItem ", id)
 
   return axios.delete(`${process.env.VUE_APP_API_URL}items/${id}`, {
@@ -189,7 +189,7 @@ export function deleteItem(id: number): Promise<AxiosResponse<null>> {
 }
 
 // Create Item
-export function createItem(
+export function createApiProduct(
   item: Record<string, unknown>
 ): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: createItem")
@@ -201,10 +201,10 @@ export function createItem(
 }
 
 // Update Item
-export function updateItem(
+export function updateApiProduct(
   id: number,
   item: Record<string, unknown>
-): Promise<AxiosResponse<{ data: { item: Product } }>> {
+): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: updateItem", id)
 
   return axios.put(`${process.env.VUE_APP_API_URL}items/${id}`, {
@@ -214,10 +214,10 @@ export function updateItem(
 }
 
 // Get Item Reviews
-export function getItemReviews(
+export function getApiProductReviews(
   id: number,
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { items: Review[] } }>> {
+): Promise<AxiosResponse<{ data: { items: Review[]; meta: Record<any, any> } }>> {
   console.debug("API: getItemReviews", id)
 
   return axios.get(`${process.env.VUE_APP_API_URL}items/${id}/reviews`, {
@@ -232,9 +232,9 @@ export function getItemReviews(
 }
 
 // Get Reviews
-export function getReviews(
+export function getApiReviews(
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { items: Review[] } }>> {
+): Promise<AxiosResponse<{ data: { items: Review[]; meta: Record<any, any> } }>> {
   console.debug("API: getReviews")
 
   return axios.get(`${process.env.VUE_APP_API_URL}reviews`, {

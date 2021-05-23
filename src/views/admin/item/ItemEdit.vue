@@ -1,31 +1,75 @@
 <template>
   <section class="md:w-full sm:w-11/12 px-10 py-7 text-left">
-    <div v-if="produceLoading">Loading</div>
-    <div v-else>
-      <h3 v-if="item">Editing Item: {{ item.name }}</h3>
+    <div>
+      <h1 class="text-xl">商品の詳細</h1>
+      <h2 v-if="state.product">{{ state.product.name }}</h2>
     </div>
-    <admin-item-form v-model="itemToEdit" @save="onItemSave"></admin-item-form>
-    <admin-reviews></admin-reviews>
+
+    <admin-item-form
+      v-model="state.productToEdit"
+      :loading="anyLoading"
+      @save="onItemSave"
+    ></admin-item-form>
+
+    <div class="md:flex md:justify-between">
+      <div>
+        <admin-button
+          @handleClick="onItemSave"
+          :disabled="!state.productToEdit || anyLoading"
+          class="btn-primary"
+          >登録</admin-button
+        >
+      </div>
+      <div>
+        <admin-button @handleClick="onItemReset" class="ml-3">リセット</admin-button>
+      </div>
+      <div class="md:ml-auto">
+        <admin-button @handleClick.stop="agreementDialog.value = true" class="ml-3 btn-danger"
+          >削除</admin-button
+        >
+        <admin-dialog :agreementDialog="agreementDialog.value"
+          >この商品を削除します。よろしいですか。</admin-dialog
+        >
+      </div>
+    </div>
+    <!--    <admin-reviews></admin-reviews>-->
   </section>
 </template>
 
 <script lang="ts">
-import { reactive, computed, defineComponent, onMounted, toRefs } from "vue"
-import { ActionContext, useStore } from "vuex"
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  reactive,
+  ref,
+  toRefs,
+  WritableComputedRef,
+} from "vue"
+import {
+  productsState,
+  getAndSetProduct,
+  deleteProduct,
+  updateProduct,
+} from "@/composables/useProducts"
 import AdminItemForm from "@/components/admin/AdminItemForm.vue"
 import AdminReviews from "@/components/admin/AdminReviews.vue"
 import { Product } from "@/types"
+import AdminButton from "@/components/admin/AdminButton.vue"
+import AdminDialog from "@/components/admin/AdminDialog.vue"
 
-type ComponentState = {
-  item: Product | null
-  itemToEdit: Product | null
+interface ComponentState {
+  product: Product | null
+  productToEdit: Product | null
 }
 
 export default defineComponent({
   name: "AdminItemEdit",
   components: {
+    AdminDialog,
+    AdminButton,
     AdminItemForm,
-    AdminReviews,
+    //AdminReviews,
   },
   props: {
     id: {
@@ -34,34 +78,45 @@ export default defineComponent({
     },
   },
   setup: function (props) {
-    const store = useStore()
-
-    const state: ComponentState = reactive<ComponentState>({
-      item: null,
-      itemToEdit: null,
+    const state = reactive<ComponentState>({
+      product: null,
+      productToEdit: null,
     })
-
-    const getAndSetItem = async (): Promise<void> => {
-      await store.dispatch("produce/getAndSetItem", props.id)
-      state.item = { ...store.getters["produce/item"] }
-      state.itemToEdit = { ...store.getters["produce/item"] }
-    }
+    const agreementDialog = ref(false)
 
     onMounted(() => {
-      getAndSetItem()
+      setProductInForm()
     })
 
-    const onItemSave = async (formData: ActionContext<any, any>): Promise<void> => {
-      console.log(state)
+    const setProductInForm = async (): Promise<void> => {
+      await getAndSetProduct(props.id)
+
+      state.product = productsState.product
+      state.productToEdit = Object.assign({}, productsState.product)
     }
 
-    let { item, itemToEdit } = toRefs(state)
+    const onItemSave = async (product: Product): Promise<void> => {
+      await updateProduct(props.id, product)
+    }
+
+    const onItemDelete = async (): Promise<void> => {
+      await deleteProduct(props.id)
+    }
+
+    const onItemReset = () => {
+      state.productToEdit = state.product
+    }
+    // let { product, productToEdit } = toRefs(state)
+
+    const anyLoading: WritableComputedRef<boolean> = computed(() => productsState.loading)
 
     return {
-      item,
-      itemToEdit,
-      produceLoading: computed(() => store.getters["produce/loading"]),
+      state,
+      anyLoading,
       onItemSave,
+      onItemDelete,
+      onItemReset,
+      agreementDialog,
     }
   },
 })
