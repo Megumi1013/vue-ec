@@ -1,9 +1,11 @@
 <template>
   <section class="md:w-full sm:w-11/12 px-10 py-7 text-left">
     <div class="flex">
-      <h1 class="text-xl">商品管理</h1>
-      <div class="ml-auto btn btn-primary">
-        <router-link to="/admin/item/create"> 新規登録 </router-link>
+      <h1 class="text-xl">商品</h1>
+      <div class="ml-auto">
+        <router-link to="/admin/item/create">
+          <admin-button color="btn-primary">新規登録</admin-button>
+        </router-link>
       </div>
     </div>
     <div>
@@ -22,27 +24,11 @@
             </thead>
 
             <tbody>
-              <tr v-for="(product, productIndex) in products" :key="productIndex">
-                <td>{{ product.id }}</td>
-                <td class="p-2">
-                  {{ product.name }}
-                </td>
-                <td class="p-2">{{ product.description }}</td>
-                <td class="p-2">{{ product.price }}円</td>
-                <td class="p-2 flex justify-around">
-                  <admin-button class="mr-3" @handleClick="onDeleteProductClick(product)"
-                    >削除</admin-button
-                  >
-
-                  <router-link
-                    :to="`/admin/item/${product.id}/edit`"
-                    tag="button"
-                    class="btn btn-primary block"
-                  >
-                    詳細
-                  </router-link>
-                </td>
-              </tr>
+              <admin-item-list-row
+                v-for="product in products"
+                :product="product"
+                :key="product.id"
+              ></admin-item-list-row>
             </tbody>
           </table>
         </div>
@@ -54,15 +40,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue"
+import { ref, computed, defineComponent, onMounted } from "vue"
 import { productsState, getAndSetProducts, deleteProduct } from "@/composables/useProducts"
 import AdminButton from "@/components/admin/AdminButton.vue"
+import AdminItemListRow from "@/components/admin/AdminItemListRow.vue"
 import { Product } from "@/types"
 
 export default defineComponent({
   name: "AdminItemList",
   components: {
     AdminButton,
+    AdminItemListRow,
   },
   props: {},
   setup: function () {
@@ -70,14 +58,9 @@ export default defineComponent({
       getAndSetProducts()
     })
 
-    const onDeleteProductClick = (product: Product) => {
-      deleteProduct(product.id!)
-    }
-
     return {
       products: computed(() => productsState.products),
       loading: computed(() => productsState.loading),
-      onDeleteProductClick,
     }
   },
 })
@@ -85,9 +68,5 @@ export default defineComponent({
 <style scoped>
 body {
   background: #d5eef2;
-}
-.item-img {
-  width: 250px;
-  height: 250px;
 }
 </style>
