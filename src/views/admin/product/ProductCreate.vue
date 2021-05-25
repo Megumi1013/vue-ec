@@ -16,7 +16,7 @@ interface ComponentState {
 }
 
 export default defineComponent({
-  name: "DashboardItemCreate",
+  name: "adminProductCreate",
   components: {
     AdminItemForm,
   },

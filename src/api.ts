@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== "production") {
   // Section not needed with real API
   const mock = new MockAdapter(axios, { delayResponse: 2000, onNoMatch: "throwException" })
 
-  // All Items
+  // All Products
 
   mock.onGet(`${process.env.VUE_APP_API_URL}items`).reply(function (config) {
     console.log("Mock API: onGet items")

@@ -26,24 +26,30 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "items",
-        name: "AdminItemList",
+        name: "AdminProductList",
         component: () =>
-          import(/* webpackChunkName: "AdminItemList" */ "../views/admin/item/ItemList.vue"),
+          import(
+            /* webpackChunkName: "AdminProductList" */ "../views/admin/product/ProductList.vue"
+          ),
       },
       {
         path: "item/:id(\\d+)/edit",
-        name: "AdminItemEdit",
+        name: "AdminProductEdit",
         component: () =>
-          import(/* webpackChunkName: "AdminItemEdit" */ "../views/admin/item/ItemEdit.vue"),
+          import(
+            /* webpackChunkName: "AdminProductEdit" */ "../views/admin/product/ProductEdit.vue"
+          ),
         props: (route) => ({
           id: route.params.id ? Number(route.params.id) : null,
         }),
       },
       {
-        path: "item/create",
-        name: "AdminItemCreate",
+        path: "product/create",
+        name: "AdminProductCreate",
         component: () =>
-          import(/* webpackChunkName: "AdminItemEdit" */ "../views/admin/item/ItemCreate.vue"),
+          import(
+            /* webpackChunkName: "AdminProductEdit" */ "../views/admin/product/ProductCreate.vue"
+          ),
       },
       {
         path: "reviews",
@@ -54,10 +60,10 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: "/item/:id(\\d+)/edit",
-    name: "PublicItemDetail",
+    path: "/product/:id(\\d+)/edit",
+    name: "PublicProductDetail",
     component: () =>
-      import(/* webpackChunkName: "itemDetails" */ "../views/public/item/ItemDetail.vue"),
+      import(/* webpackChunkName: "itemDetails" */ "../views/public/product/ProductDetail.vue"),
     props: (route) => ({
       id: route.params.id ? Number(route.params.id) : null,
     }),

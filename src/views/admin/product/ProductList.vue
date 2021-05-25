@@ -40,11 +40,10 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, onMounted } from "vue"
+import { computed, defineComponent, onMounted } from "vue"
 import { productsState, getAndSetProducts, deleteProduct } from "@/composables/useProducts"
 import AdminButton from "@/components/admin/AdminButton.vue"
 import AdminItemListRow from "@/components/admin/AdminItemListRow.vue"
-import { Product } from "@/types"
 
 export default defineComponent({
   name: "AdminItemList",

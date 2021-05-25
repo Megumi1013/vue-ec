@@ -28,7 +28,7 @@
           <ul>
             <li @handleClick="onDeleteProductClick(product)">削除</li>
             <li>
-              <router-link :to="`/admin/item/${product.id}/edit`"> 詳細 </router-link>
+              <router-link :to="`/admin/product/${product.id}/edit`"> 詳細 </router-link>
             </li>
           </ul>
         </div>
@@ -47,7 +47,7 @@ interface ComponentState {
 }
 
 export default defineComponent({
-  name: "AdminItemListRow",
+  name: "AdminProductListRow",
   props: {
     product: {
       type: Object as () => Product,

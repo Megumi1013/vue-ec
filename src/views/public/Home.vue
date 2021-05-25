@@ -6,66 +6,45 @@
       <h1 class="text-3xl text-gray-500 my-14">PRODUCE</h1>
     </div>
 
-    <div v-if="produceItems.length > 0" class="w-9/12 mx-auto">
-      <div v-for="(item, itemIndex) in produceItems" :key="itemIndex" class="md:flex md:my-16">
-        <public-card
-          :itemName="item.name"
-          :itemDetail="item.description"
-          :itemPrice="item.price"
-          :routerLink="`/item/${item.id}`"
-        />
+    <div v-if="loading">...Loading</div>
+    <div v-else>
+      <div v-if="products" class="w-9/12 mx-auto">
+        <div class="md:flex md:my-16">
+          <public-card v-for="product in products" :key="product.id" :product="product" />
+        </div>
       </div>
+      <div v-else-if="!products">商品を準備中です。</div>
     </div>
-    <div v-else-if="produceItems.length === 0">商品を準備中です。</div>
     <public-footer></public-footer>
   </div>
 </template>
 
 <script lang="ts">
-import { reactive, computed, defineComponent, onMounted } from "vue"
-import { useStore } from "vuex"
+import { computed, defineComponent, onMounted } from "vue"
 import PublicHeader from "@/components/public/PublicHeader.vue"
 import PublicFooter from "@/components/public/PublicFooter.vue"
 import PublicCard from "@/components/public/PublicCard.vue"
-import { Product } from "@/types"
-// import HelloWorld from '@/components/HelloWorld.vue';
-// @ is an alias to /src
+import { getAndSetProducts, productsState } from "@/composables/useProducts"
 
-type ComponentState = {
-  produceItems: Product[]
-}
+// @ is an alias to /src
 
 export default defineComponent({
   name: "Home",
 
   components: {
-    // PublicCard,
+    PublicCard,
     PublicHeader,
     PublicFooter,
   },
 
   setup() {
-    const store = useStore()
-
-    // Get Produce Items
-
-    const state: ComponentState = reactive<ComponentState>({
-      produceItems: store.state.produce.items,
-    })
-
-    // Get Produce Items
-
-    const getAndSetProduceItems = async () => {
-      await store.dispatch("produce/getAndSetItems")
-    }
-
     onMounted(() => {
-      getAndSetProduceItems()
+      getAndSetProducts()
     })
 
     return {
-      produceItems: computed(() => store.state.produce.items),
-      state,
+      products: computed(() => productsState.products),
+      loading: computed(() => productsState.loading),
     }
   },
 })
