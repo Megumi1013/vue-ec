@@ -31,13 +31,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import PublicButton from "@/components/public/PublicButton"
 import { Product } from "@/types"
 export default defineComponent({
   name: "PublicCard",
-  components: {
-    // PublicButton
-  },
+  components: {},
   props: {
     product: {
       type: Object as () => Product,
