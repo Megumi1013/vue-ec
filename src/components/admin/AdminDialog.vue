@@ -5,8 +5,12 @@
         <slot></slot>
       </div>
 
-      <admin-button @handleClick="onDisagreeClick" class="mr-5">{{ disagreeText }}</admin-button>
-      <admin-button @handleClick="onAgreeClick" color="btn-primary">{{ agreeText }}</admin-button>
+      <admin-button @handleClick="onDisagreeClick" class="mr-5" v-if="disagree">{{
+        disagreeText
+      }}</admin-button>
+      <admin-button @handleClick="onAgreeClick" color="btn-primary" v-if="agree">{{
+        agreeText
+      }}</admin-button>
     </div>
   </section>
 </template>
@@ -36,9 +40,25 @@ export default defineComponent({
       required: false,
       default: "はい",
     },
+    disagreeButton: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    agreeButton: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
 
-  emits: ["update:agreementDialog", "onAgreeClick", "onDisagreeClick"],
+  emits: [
+    "update:agreementDialog",
+    "onAgreeClick",
+    "onDisagreeClick",
+    "update:disagreeButton",
+    "update:agreeButton",
+  ],
 
   setup: function (props, { emit }) {
     // const onAgreeClick = (): void => {
@@ -50,6 +70,24 @@ export default defineComponent({
       },
       set(): void {
         emit("update:agreementDialog", dialog)
+      },
+    })
+
+    const disagree: WritableComputedRef<boolean> = computed({
+      get(): boolean {
+        return props.disagreeButton
+      },
+      set(): void {
+        emit("update:disagreeButton", disagree)
+      },
+    })
+
+    const agree: WritableComputedRef<boolean> = computed({
+      get(): boolean {
+        return props.agreeButton
+      },
+      set(): void {
+        emit("update:agreeButton", agree)
       },
     })
 
@@ -65,6 +103,8 @@ export default defineComponent({
       onAgreeClick,
       onDisagreeClick,
       dialog,
+      disagree,
+      agree,
     }
   },
 })

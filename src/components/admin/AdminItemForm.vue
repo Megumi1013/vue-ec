@@ -23,8 +23,11 @@
   <label class="block my-12 sm:flex items-center">
     <div class="text-gray-700 w-1/6">価格</div>
 
-    <div v-if="!anyLoading" class="w-full">
-      <input-form v-model="product.price"></input-form>
+    <div v-if="!anyLoading" class="w-full flex items-baseline">
+      <div class="w-40 mr-3">
+        <input-form v-model="product.price"></input-form>
+      </div>
+      <div>円</div>
     </div>
 
     <div v-else class="rounded-md bg-gray-200 animate-pulse w-full h-11"></div>

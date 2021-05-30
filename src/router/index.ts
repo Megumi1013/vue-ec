@@ -11,6 +11,33 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "Home",
     component: Home,
+    children: [
+      {
+        path: "products",
+        name: "AdminProductList",
+        component: () =>
+          import(
+            /* webpackChunkName: "AdminProductList" */ "../views/admin/product/ProductList.vue"
+          ),
+      },
+      {
+        path: "/product/:id(\\d+)",
+        name: "PublicProductDetail",
+        component: () =>
+          import(
+            /* webpackChunkName: "productDetails" */ "../views/public/product/ProductDetail.vue"
+          ),
+        props: (route) => ({
+          id: route.params.id ? Number(route.params.id) : null,
+        }),
+      },
+      {
+        path: "/contact",
+        name: "PublicContact",
+        component: () =>
+          import(/* webpackChunkName: "PublicContact" */ "../views/public/Contact.vue"),
+      },
+    ],
   },
   {
     path: "/about",
@@ -25,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
     // beforeEnter and check is logged in and admin?
     children: [
       {
-        path: "items",
+        path: "products",
         name: "AdminProductList",
         component: () =>
           import(
@@ -33,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
-        path: "item/:id(\\d+)/edit",
+        path: "product/:id(\\d+)/edit",
         name: "AdminProductEdit",
         component: () =>
           import(
@@ -58,20 +85,6 @@ const routes: Array<RouteRecordRaw> = [
           import(/* webpackChunkName: "AdminReviews" */ "../views/admin/review/ReviewList.vue"),
       },
     ],
-  },
-  {
-    path: "/product/:id(\\d+)/edit",
-    name: "PublicProductDetail",
-    component: () =>
-      import(/* webpackChunkName: "itemDetails" */ "../views/public/product/ProductDetail.vue"),
-    props: (route) => ({
-      id: route.params.id ? Number(route.params.id) : null,
-    }),
-  },
-  {
-    path: "/contact",
-    name: "PublicContact",
-    component: () => import(/* webpackChunkName: "PublicContact" */ "../views/public/Contact.vue"),
   },
 ]
 

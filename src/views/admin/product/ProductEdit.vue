@@ -70,13 +70,28 @@
           @onDisagreeClick="onCancel"
           >この商品を削除します。よろしいですか。</admin-dialog
         >
+
+        <admin-dialog
+          :agreementDialog="agreementDialogDeleteComplete"
+          @onAgreeClick="onDeleteComplete"
+          disagree-button="false"
+          >削除が完了しました。</admin-dialog
+        >
       </div>
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, ref, WritableComputedRef } from "vue"
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  reactive,
+  toRefs,
+  ref,
+  WritableComputedRef,
+} from "vue"
 import {
   productsState,
   getAndSetProduct,
@@ -88,6 +103,7 @@ import { Product } from "@/types"
 import AdminButton from "@/components/admin/AdminButton.vue"
 import AdminDialog from "@/components/admin/AdminDialog.vue"
 import { getAndSetProductReviews, reviewsState } from "@/composables/useReviews"
+import router from "@/router"
 
 interface ComponentState {
   product: Product | null
@@ -114,6 +130,7 @@ export default defineComponent({
       productToEdit: null,
     })
     const agreementDialog = ref<boolean>(false)
+    const agreementDialogDeleteComplete = ref<boolean>(false)
 
     onMounted(() => {
       setProductInForm()
@@ -134,6 +151,7 @@ export default defineComponent({
     const onItemDelete = async (): Promise<void> => {
       await deleteProduct(props.id)
       agreementDialog.value = false
+      agreementDialogDeleteComplete.value = true
     }
     const onCancel = () => {
       agreementDialog.value = false
@@ -141,7 +159,10 @@ export default defineComponent({
     const onItemReset = () => {
       state.productToEdit = state.product
     }
-    // let { product, productToEdit } = toRefs(state)
+
+    const onDeleteComplete = () => {
+      router.push({ name: "AdminProductList" })
+    }
 
     const anyLoading: WritableComputedRef<boolean> = computed(() => productsState.loading)
 
@@ -150,8 +171,10 @@ export default defineComponent({
       anyLoading,
       onItemSave,
       onItemDelete,
+      onDeleteComplete,
       onItemReset,
       agreementDialog,
+      agreementDialogDeleteComplete,
       onCancel,
       reviews: computed(() => reviewsState.reviews),
       reviewsLoading: computed(() => reviewsState.loading),
