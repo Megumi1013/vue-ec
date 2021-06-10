@@ -1,5 +1,5 @@
 <template>
-  <button type="submit" class="btn mt-3" :class="color" @click="handleClick">{{ text }}}</button>
+  <button type="submit" class="btn mt-3" :class="color" @click="handleClick">{{ text }}</button>
 </template>
 
 <script language="ts">

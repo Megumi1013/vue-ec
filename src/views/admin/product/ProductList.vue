@@ -3,7 +3,7 @@
     <div class="flex">
       <h1 class="text-xl">商品</h1>
       <div class="ml-auto">
-        <router-link to="/admin/product/create">
+        <router-link to="/admin/products/create">
           <admin-button color="btn-primary">新規登録</admin-button>
         </router-link>
       </div>

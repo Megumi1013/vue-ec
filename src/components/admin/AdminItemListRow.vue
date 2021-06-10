@@ -26,7 +26,7 @@
 
         <div
           v-show="state.popupNavi"
-          class="mr-2.5 fixed rounded-md shadow-md z-10 mt-4 p-4 bg-white"
+          class="mr-2.5 fixed rounded-md shadow-md z-1 mt-4 p-4 bg-white"
         >
           <ul>
             <li @click="agreementDialog = true" class="p-2 :hover:text-opacity-80 cursor-pointer">
@@ -45,7 +45,7 @@
               削除
             </li>
             <li class="p-2 :hover:text-opacity-80">
-              <router-link :to="`/admin/product/${product.id}/edit`">
+              <router-link :to="`/admin/products/${product.id}/edit`">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5 mr-2.5 inline"

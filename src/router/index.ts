@@ -7,43 +7,46 @@ const routes: Array<RouteRecordRaw> = [
   //   name: "Error404",
   //   component: Error404
   // },
+
+  // Home
+
   {
     path: "/",
     name: "Home",
-    component: Home,
-    children: [
-      {
-        path: "products",
-        name: "AdminProductList",
-        component: () =>
-          import(
-            /* webpackChunkName: "AdminProductList" */ "../views/admin/product/ProductList.vue"
-          ),
-      },
-      {
-        path: "/product/:id(\\d+)",
-        name: "PublicProductDetail",
-        component: () =>
-          import(
-            /* webpackChunkName: "productDetails" */ "../views/public/product/ProductDetail.vue"
-          ),
-        props: (route) => ({
-          id: route.params.id ? Number(route.params.id) : null,
-        }),
-      },
-      {
-        path: "/contact",
-        name: "PublicContact",
-        component: () =>
-          import(/* webpackChunkName: "PublicContact" */ "../views/public/Contact.vue"),
-      },
-    ],
+    component: () => import(/* webpackChunkName: "Home" */ "../views/public/Home.vue"),
+  },
+
+  // Contact
+
+  {
+    path: "/contact",
+    name: "PublicContact",
+    component: () => import(/* webpackChunkName: "PublicContact" */ "../views/public/Contact.vue"),
+  },
+
+  // Products
+
+  {
+    path: "/products",
+    name: "PublicProductList",
+    component: () =>
+      import(/* webpackChunkName: "PublicProductList" */ "../views/public/product/ProductList.vue"),
   },
   {
-    path: "/about",
-    name: "PublicAbout",
-    component: () => import(/* webpackChunkName: "PublicAbout" */ "../views/public/About.vue"),
+    path: "/products/:id/:slug",
+    name: "PublicProductDetail",
+    component: () =>
+      import(
+        /* webpackChunkName: "PublicProductDetail" */ "../views/public/product/ProductDetail.vue"
+      ),
+    props: (route) => ({
+      id: route.params.id ? Number(route.params.id) : null,
+      slug: route.params.slug,
+    }),
   },
+
+  // Admin
+
   {
     path: "/admin",
     name: "AdminDashboard",
@@ -60,7 +63,7 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
-        path: "product/:id(\\d+)/edit",
+        path: "products/:id(\\d+)/edit",
         name: "AdminProductEdit",
         component: () =>
           import(
@@ -71,7 +74,7 @@ const routes: Array<RouteRecordRaw> = [
         }),
       },
       {
-        path: "product/create",
+        path: "products/create",
         name: "AdminProductCreate",
         component: () =>
           import(

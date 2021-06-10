@@ -116,7 +116,6 @@ export default defineComponent({
     AdminDialog,
     AdminButton,
     AdminItemForm,
-    //AdminReviews,
   },
   props: {
     id: {

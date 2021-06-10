@@ -1,12 +1,10 @@
 <template>
   <router-link
-    :to="`/item/${product.id}`"
-    class="md:w-1/4 w-full my-10 md:my-0 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg space-x-4"
+    :to="`/products/${product.id}/${product.name}`"
+    class="md:w-1/4 w-full my-10 md:my-0 p-6 max-w-sm mx-auto bg-white space-x-4"
   >
     <div>
-      <div class="flex justify-center items-center">
-        <img class="h-12 w-12" :src="src" :alt="product.name" />
-      </div>
+      <div class="flex justify-center items-center"></div>
       <div>
         <div class="text-xl font-medium text-black">
           {{ product.name }}
@@ -23,7 +21,7 @@
             <option value="3">3</option>
           </select>
         </div>
-        <router-link :to="`/item/${product.id}`" class=""> 詳細はこちら </router-link>
+        <router-link :to="`/products/${product.id}/${product.name}`" class="">購入する</router-link>
       </div>
     </div>
   </router-link>
