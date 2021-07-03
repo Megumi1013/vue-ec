@@ -1,9 +1,8 @@
 <template>
   <div class="product-list">
     <public-header></public-header>
-    <div class="bg-fruit h-80"></div>
     <div>
-      <h1 class="text-3xl text-gray-500 my-14">PRODUCE</h1>
+      <h1 class="text-3xl text-gray-500 my-14">ALL ITEMS</h1>
     </div>
 
     <div v-if="loading">...Loading</div>

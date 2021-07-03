@@ -1,5 +1,5 @@
 <template>
-  <section v-if="dialog" class="modalWrapper">
+  <section v-if="dialog" class="modalWrapper" @click.stop="onDisagreeClick">
     <div class="modal">
       <div class="mb-4">
         <slot></slot>

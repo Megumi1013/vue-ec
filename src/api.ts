@@ -1,13 +1,69 @@
 import axios, { AxiosResponse } from "axios"
 import MockAdapter from "axios-mock-adapter"
 import { Product, Review } from "@/./types"
+import { store } from "./store"
+
+// API Auth Header
+
+function authHeader(token: string): any {
+  if (token) {
+    return {
+      Authorization: `Bearer ${token}`,
+    }
+  }
+
+  return {}
+}
+
+// Create API Instance
+
+const api = axios.create({
+  baseURL: process.env.VUE_APP_API_URL,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    ...authHeader(store.getters["auth/token"]),
+  },
+})
+
+// Setup Interceptors
+
+api.interceptors.request.use(
+  (config) => {
+    // Do something before request is sent
+    console.log(config)
+    return config
+  },
+  (error) => {
+    // Do something with request error
+    console.error(error)
+    return Promise.reject(error)
+  }
+)
+
+// Add a response interceptor
+api.interceptors.response.use(
+  (response) => {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    console.log(response)
+    return response
+  },
+  (error) => {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    // If API says user is logged-out, store.dispatch("auth/logout")
+    console.error(error)
+    return Promise.reject(error)
+  }
+)
 
 if (process.env.NODE_ENV !== "production") {
   console.log("**USING MOCK API**")
 
   // Mock API
   // Section not needed with real API
-  const mock = new MockAdapter(axios, { delayResponse: 2000, onNoMatch: "throwException" })
+  const mock = new MockAdapter(api, { delayResponse: 2000, onNoMatch: "throwException" })
 
   // All Products
 
@@ -183,7 +239,7 @@ export function getApiProducts(
   params: Record<string, unknown> | null = null
 ): Promise<AxiosResponse<{ data: { items: Product[]; meta: Record<any, any> } }>> {
   console.log("API getItems: " + `${process.env.VUE_APP_API_URL}items`)
-  return axios.get(`${process.env.VUE_APP_API_URL}items`, {
+  return api.get(`items`, {
     withCredentials: true,
     params: {
       page: params ? params.page : 1,
@@ -198,7 +254,7 @@ export function getApiProducts(
 export function getApiProduct(id: number): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: getItem ", id)
 
-  return axios.get(`${process.env.VUE_APP_API_URL}items/${id}`, {
+  return api.get(`items/${id}`, {
     withCredentials: true,
   })
 }
@@ -207,7 +263,7 @@ export function getApiProduct(id: number): Promise<AxiosResponse<{ data: Product
 export function deleteApiProduct(id: number): Promise<AxiosResponse<null>> {
   console.debug("API: deleteItem ", id)
 
-  return axios.delete(`${process.env.VUE_APP_API_URL}items/${id}`, {
+  return api.delete(`items/${id}`, {
     withCredentials: true,
   })
 }
@@ -218,7 +274,7 @@ export function createApiProduct(
 ): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: createItem")
 
-  return axios.put(`${process.env.VUE_APP_API_URL}items`, {
+  return api.put(`items`, {
     withCredentials: true,
     body: item,
   })
@@ -231,7 +287,7 @@ export function updateApiProduct(
 ): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: updateItem", id)
 
-  return axios.put(`${process.env.VUE_APP_API_URL}items/${id}`, {
+  return api.put(`items/${id}`, {
     withCredentials: true,
     body: item,
   })
@@ -244,7 +300,7 @@ export function getApiProductReviews(
 ): Promise<AxiosResponse<{ data: { items: Review[]; meta: Record<any, any> } }>> {
   console.debug("API: getItemReviews", id)
 
-  return axios.get(`${process.env.VUE_APP_API_URL}items/${id}/reviews`, {
+  return api.get(`items/${id}/reviews`, {
     withCredentials: true,
     params: {
       page: params ? params.page : 1,
@@ -261,7 +317,7 @@ export function getApiReviews(
 ): Promise<AxiosResponse<{ data: { items: Review[]; meta: Record<any, any> } }>> {
   console.debug("API: getReviews")
 
-  return axios.get(`${process.env.VUE_APP_API_URL}reviews`, {
+  return api.get(`reviews`, {
     withCredentials: true,
     params: {
       page: params ? params.page : 1,
@@ -271,3 +327,5 @@ export function getApiReviews(
     },
   })
 }
+
+export default api
