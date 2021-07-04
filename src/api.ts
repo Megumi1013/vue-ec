@@ -274,7 +274,7 @@ export function createApiProduct(
 ): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: createProduct")
 
-  return api.put(`products`, {
+  return api.post(`products`, {
     withCredentials: true,
     body: product,
   })
