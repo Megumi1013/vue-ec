@@ -76,7 +76,7 @@ if (process.env.NODE_ENV !== "production") {
         message: "Successfully retrieved products",
         status: "products_index_success",
         data: {
-          products: [
+          items: [
             {
               id: 1,
               name: "test_name",
@@ -178,7 +178,7 @@ if (process.env.NODE_ENV !== "production") {
           message: "Successfully retrieved Item Reviews",
           status: "item_reviews_index_success",
           data: {
-            products: [
+            items: [
               {
                 id: 1,
                 item_id: config.url,
@@ -237,7 +237,7 @@ if (process.env.NODE_ENV !== "production") {
 // All products
 export function getApiProducts(
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { products: Product[]; meta: Record<any, any> } }>> {
+): Promise<AxiosResponse<{ data: { items: Product[]; meta: Record<any, any> } }>> {
   console.log("API get products: ", `${process.env.VUE_APP_API_URL}products`)
   return api.get(`products`, {
     withCredentials: true,
@@ -297,7 +297,7 @@ export function updateApiProduct(
 export function getApiProductReviews(
   id: number,
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { products: Review[]; meta: Record<any, any> } }>> {
+): Promise<AxiosResponse<{ data: { items: Review[]; meta: Record<any, any> } }>> {
   console.debug("API: getProductReviews", id)
 
   return api.get(`products/${id}/reviews`, {
@@ -314,7 +314,7 @@ export function getApiProductReviews(
 // Get Reviews
 export function getApiReviews(
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { products: Review[]; meta: Record<any, any> } }>> {
+): Promise<AxiosResponse<{ data: { items: Review[]; meta: Record<any, any> } }>> {
   console.debug("API: getReviews")
 
   return api.get(`reviews`, {
