@@ -67,16 +67,16 @@ if (process.env.NODE_ENV !== "production") {
 
   // All Products
 
-  mock.onGet(`${process.env.VUE_APP_API_URL}items`).reply(function (config) {
-    console.log("Mock API: onGet items")
+  mock.onGet(`${process.env.VUE_APP_API_URL}products`).reply(function (config) {
+    console.log("Mock API: onGet products")
     return [
       200,
       {
         code: 200,
-        message: "Successfully retrieved Items",
-        status: "items_index_success",
+        message: "Successfully retrieved products",
+        status: "products_index_success",
         data: {
-          items: [
+          products: [
             {
               id: 1,
               name: "test_name",
@@ -114,14 +114,14 @@ if (process.env.NODE_ENV !== "production") {
     ]
   })
 
-  mock.onPost(`${process.env.VUE_APP_API_URL}items`).reply(function (config) {
-    console.log("Mock API: onGet items")
+  mock.onPost(`${process.env.VUE_APP_API_URL}products`).reply(function (config) {
+    console.log("Mock API: onGet products")
     return [
       200,
       {
         code: 200,
-        message: "Successfully retrieved Items",
-        status: "items_index_success",
+        message: "Successfully retrieved products",
+        status: "products_index_success",
         data: {
           items: {
             id: 1,
@@ -162,7 +162,7 @@ if (process.env.NODE_ENV !== "production") {
   })
 
   mock
-    .onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/d+/reviews`), {
+    .onGet(new RegExp(`${process.env.VUE_APP_API_URL}products/d+/reviews`), {
       params: {
         page: 1,
         perPage: 10,
@@ -178,7 +178,7 @@ if (process.env.NODE_ENV !== "production") {
           message: "Successfully retrieved Item Reviews",
           status: "item_reviews_index_success",
           data: {
-            items: [
+            products: [
               {
                 id: 1,
                 item_id: config.url,
@@ -207,8 +207,8 @@ if (process.env.NODE_ENV !== "production") {
       ]
     })
 
-  mock.onGet(new RegExp(`${process.env.VUE_APP_API_URL}items/[0-9]+`)).reply(function (config) {
-    console.debug("API Mock: onGet items/:id", config.url)
+  mock.onGet(new RegExp(`${process.env.VUE_APP_API_URL}products/[0-9]+`)).reply(function (config) {
+    console.debug("API Mock: onGet products/:id", config.url)
 
     const id = config.url ? parseInt(config.url.split("/")[3]) : 1
 
@@ -234,12 +234,12 @@ if (process.env.NODE_ENV !== "production") {
 
 // Axios Requests
 
-// All Items
+// All products
 export function getApiProducts(
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { items: Product[]; meta: Record<any, any> } }>> {
-  console.log("API getItems: " + `${process.env.VUE_APP_API_URL}items`)
-  return api.get(`items`, {
+): Promise<AxiosResponse<{ data: { products: Product[]; meta: Record<any, any> } }>> {
+  console.log("API get products: ", `${process.env.VUE_APP_API_URL}products`)
+  return api.get(`products`, {
     withCredentials: true,
     params: {
       page: params ? params.page : 1,
@@ -250,57 +250,57 @@ export function getApiProducts(
   })
 }
 
-// Get Item
+// Get product
 export function getApiProduct(id: number): Promise<AxiosResponse<{ data: Product }>> {
-  console.debug("API: getItem ", id)
+  console.debug("API: getProduct ", id)
 
-  return api.get(`items/${id}`, {
+  return api.get(`products/${id}`, {
     withCredentials: true,
   })
 }
 
-// Delete Item
+// Delete product
 export function deleteApiProduct(id: number): Promise<AxiosResponse<null>> {
-  console.debug("API: deleteItem ", id)
+  console.debug("API: deleteProduct ", id)
 
-  return api.delete(`items/${id}`, {
+  return api.delete(`products/${id}`, {
     withCredentials: true,
   })
 }
 
-// Create Item
+// Create product
 export function createApiProduct(
-  item: Record<string, unknown>
+  product: Record<string, unknown>
 ): Promise<AxiosResponse<{ data: Product }>> {
-  console.debug("API: createItem")
+  console.debug("API: createProduct")
 
-  return api.put(`items`, {
+  return api.put(`products`, {
     withCredentials: true,
-    body: item,
+    body: product,
   })
 }
 
-// Update Item
+// Update product
 export function updateApiProduct(
   id: number,
-  item: Record<string, unknown>
+  product: Record<string, unknown>
 ): Promise<AxiosResponse<{ data: Product }>> {
-  console.debug("API: updateItem", id)
+  console.debug("API: updateProduct", id)
 
-  return api.put(`items/${id}`, {
+  return api.put(`products/${id}`, {
     withCredentials: true,
-    body: item,
+    body: product,
   })
 }
 
-// Get Item Reviews
+// Get product Reviews
 export function getApiProductReviews(
   id: number,
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { items: Review[]; meta: Record<any, any> } }>> {
-  console.debug("API: getItemReviews", id)
+): Promise<AxiosResponse<{ data: { products: Review[]; meta: Record<any, any> } }>> {
+  console.debug("API: getProductReviews", id)
 
-  return api.get(`items/${id}/reviews`, {
+  return api.get(`products/${id}/reviews`, {
     withCredentials: true,
     params: {
       page: params ? params.page : 1,
@@ -314,7 +314,7 @@ export function getApiProductReviews(
 // Get Reviews
 export function getApiReviews(
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { items: Review[]; meta: Record<any, any> } }>> {
+): Promise<AxiosResponse<{ data: { products: Review[]; meta: Record<any, any> } }>> {
   console.debug("API: getReviews")
 
   return api.get(`reviews`, {
