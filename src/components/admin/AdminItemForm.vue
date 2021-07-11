@@ -32,10 +32,6 @@
 
     <div v-else class="rounded-md bg-gray-200 animate-pulse w-full h-11"></div>
   </label>
-
-  <!--  <button @click="onSaveClick" class="btn btn-primary" :disabled="!product || anyLoading">-->
-  <!--    登録-->
-  <!--  </button>-->
 </template>
 
 <script lang="ts">
@@ -64,13 +60,9 @@ export default defineComponent({
     },
   },
 
-  emits: ["update:modelValue", "save"],
+  emits: ["update:modelValue"],
 
   setup: function (props, { emit }) {
-    // const onSaveClick = (): void => {
-    //   emit("save")
-    // }
-
     const product: WritableComputedRef<Product | null> = computed({
       get(): Product | null {
         return props.modelValue
@@ -85,7 +77,6 @@ export default defineComponent({
     return {
       product,
       anyLoading,
-      // onSaveClick,
     }
   },
 })

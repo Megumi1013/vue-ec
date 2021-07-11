@@ -1,7 +1,7 @@
 <template>
   <section class="md:w-full sm:w-11/12 px-10 py-7 text-left">
     <h1 class="text-xl">商品の登録</h1>
-    <admin-item-form v-model="state.product" @save="createItem"></admin-item-form>
+    <admin-item-form v-model="state.product"></admin-item-form>
     <div class="md:flex">
       <div>
         <admin-button @handleClick="agreementDialog = true" class="mr-3">キャンセル</admin-button>
@@ -14,7 +14,7 @@
       </div>
 
       <div>
-        <admin-button @handleClick="createItem" :disabled="anyLoading" class="btn-primary"
+        <admin-button @handleClick="onSave" :disabled="anyLoading" class="btn-primary"
           >登録</admin-button
         >
       </div>
@@ -42,7 +42,7 @@ export default defineComponent({
     AdminButton,
     AdminDialog,
   },
-  setup: function (props) {
+  setup: function () {
     const state = reactive<ComponentState>({
       product: null,
     })
@@ -54,8 +54,8 @@ export default defineComponent({
       state.product = productsState.product
     })
 
-    const createItem = (product: Product) => {
-      createProduct(product)
+    const onSave = () => {
+      createProduct(state.product!)
     }
 
     const anyLoading: WritableComputedRef<boolean> = computed(() => productsState.loading)
@@ -72,7 +72,7 @@ export default defineComponent({
       state,
       anyLoading,
       agreementDialog,
-      createItem,
+      onSave,
       onAgree,
       onCancel,
     }
