@@ -50,11 +50,11 @@ const getAndSetProducts = async (): Promise<void> => {
       throw Error("エラーが発生しました。")
     }
 
-    productsState.loading = false
-    productsState.products = response.data.data.items
+    productsState.products = response.data.data.products
   } catch (error) {
-    productsState.loading = false
     throw Error(error)
+  } finally {
+    productsState.loading = false
   }
 }
 
@@ -67,11 +67,11 @@ const getAndSetProduct = async (id: number): Promise<void> => {
       throw Error("エラーが発生しました。")
     }
 
-    productsState.loading = false
     productsState.product = response.data.data
   } catch (error) {
-    productsState.loading = false
     throw Error(error)
+  } finally {
+    productsState.loading = false
   }
 }
 
@@ -84,11 +84,11 @@ const deleteProduct = async (id: number): Promise<void> => {
       throw Error("エラーが発生しました。")
     }
 
-    productsState.loading = false
     alert("削除が完了しました。")
   } catch (error) {
-    productsState.loading = false
     throw Error(error)
+  } finally {
+    productsState.loading = false
   }
 }
 
@@ -101,11 +101,11 @@ const createProduct = async (product: Product): Promise<void> => {
       throw Error("エラーが発生しました。")
     }
 
-    productsState.loading = false
     productsState.product = response.data.data
   } catch (error) {
-    productsState.loading = false
     throw Error(error)
+  } finally {
+    productsState.loading = false
   }
 }
 
@@ -118,11 +118,11 @@ const updateProduct = async (id: number, product: Product): Promise<void> => {
       throw Error("エラーが発生しました。")
     }
 
-    productsState.loading = false
     productsState.product = response.data.data
   } catch (error) {
-    productsState.loading = false
     throw Error(error)
+  } finally {
+    productsState.loading = false
   }
 }
 
@@ -138,11 +138,11 @@ const getAndSetProductReviews = async (
       throw Error("エラーが発生しました。")
     }
 
-    productsState.loading = false
     productsState.productReviews = response.data.data.items
   } catch (error) {
-    productsState.loading = false
     throw Error(error)
+  } finally {
+    productsState.loading = false
   }
 }
 
