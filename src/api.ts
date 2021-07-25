@@ -79,7 +79,7 @@ if (useMockApi) {
         message: "Successfully retrieved products",
         status: "products_index_success",
         data: {
-          items: [
+          products: [
             {
               id: 1,
               name: "test_name",
@@ -126,7 +126,7 @@ if (useMockApi) {
         message: "Successfully retrieved products",
         status: "products_index_success",
         data: {
-          items: {
+          products: {
             id: 1,
             name: "test_name",
             description: "test_description",
@@ -240,7 +240,7 @@ if (useMockApi) {
 // All products
 export function getApiProducts(
   params: Record<string, unknown> | null = null
-): Promise<AxiosResponse<{ data: { items: Product[]; meta: Record<any, any> } }>> {
+): Promise<AxiosResponse<{ data: { products: Product[]; meta: Record<any, any> } }>> {
   console.log("API get products: ", `${process.env.VUE_APP_API_URL}products`)
   return api.get(`products`, {
     params: {
