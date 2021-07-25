@@ -19,11 +19,12 @@ function authHeader(token: string): any {
 
 const api = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    ...authHeader(store.getters["auth/token"]),
-  },
+  // withCredentials: true,
+  // headers: {
+  //   Accept: "application/json",
+  //   "Content-Type": "application/json",
+  //   ...authHeader(store.getters["auth/token"]),
+  // },
 })
 
 // Setup Interceptors
@@ -58,7 +59,9 @@ api.interceptors.response.use(
   }
 )
 
-if (process.env.NODE_ENV !== "production") {
+const useMockApi = false // process.env.NODE_ENV !== "production"
+
+if (useMockApi) {
   console.log("**USING MOCK API**")
 
   // Mock API
@@ -240,7 +243,6 @@ export function getApiProducts(
 ): Promise<AxiosResponse<{ data: { items: Product[]; meta: Record<any, any> } }>> {
   console.log("API get products: ", `${process.env.VUE_APP_API_URL}products`)
   return api.get(`products`, {
-    withCredentials: true,
     params: {
       page: params ? params.page : 1,
       per_page: params ? params.per_page : 10,
@@ -254,18 +256,14 @@ export function getApiProducts(
 export function getApiProduct(id: number): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: getProduct ", id)
 
-  return api.get(`products/${id}`, {
-    withCredentials: true,
-  })
+  return api.get(`products/${id}`)
 }
 
 // Delete product
 export function deleteApiProduct(id: number): Promise<AxiosResponse<null>> {
   console.debug("API: deleteProduct ", id)
 
-  return api.delete(`products/${id}`, {
-    withCredentials: true,
-  })
+  return api.delete(`products/${id}`)
 }
 
 // Create product
@@ -274,10 +272,7 @@ export function createApiProduct(
 ): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: createProduct")
 
-  return api.post(`products`, {
-    withCredentials: true,
-    body: product,
-  })
+  return api.post(`products`, product)
 }
 
 // Update product
@@ -287,10 +282,7 @@ export function updateApiProduct(
 ): Promise<AxiosResponse<{ data: Product }>> {
   console.debug("API: updateProduct", id)
 
-  return api.put(`products/${id}`, {
-    withCredentials: true,
-    body: product,
-  })
+  return api.put(`products/${id}`, product)
 }
 
 // Get product Reviews
@@ -301,7 +293,6 @@ export function getApiProductReviews(
   console.debug("API: getProductReviews", id)
 
   return api.get(`products/${id}/reviews`, {
-    withCredentials: true,
     params: {
       page: params ? params.page : 1,
       per_page: params ? params.per_page : 10,
@@ -318,7 +309,6 @@ export function getApiReviews(
   console.debug("API: getReviews")
 
   return api.get(`reviews`, {
-    withCredentials: true,
     params: {
       page: params ? params.page : 1,
       per_page: params ? params.per_page : 10,
